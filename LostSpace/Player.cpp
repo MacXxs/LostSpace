@@ -36,3 +36,20 @@ void Player::Open(vector<string>& input) const
 		if (!match) cout << "I can't see any " << input[1] << " in this room." << endl;
 	}
 }
+
+void Player::Grab(vector<string>& input) const
+{
+	if (input.size() == 2) // Grab a grabable item
+	{
+		bool match = false;
+		Room* room = Location();
+
+		for (list<Entity*>::const_iterator it = room->contains.begin(); it != room->contains.end(); ++it)
+		{
+			if ((*it)->type == Type::ITEM)
+			{
+				//TODO: Finish the grab function
+			}
+		}
+	}
+}

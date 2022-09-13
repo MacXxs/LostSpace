@@ -13,5 +13,6 @@ public:
 
 	void Look(vector<string>& input) const;
 	void Open(vector<string>& input) const;
+	void Grab(vector<string>& input) const;
 };
 #endif // !PLAYER_H

@@ -78,6 +78,10 @@ bool World::Action(vector<string>& input)
 		{
 			player->Open(input);
 		}
+		if (input[0] == "grab")
+		{
+			player->Grab(input);
+		}
 		else
 		{
 			valid = false;
