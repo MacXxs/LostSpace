@@ -1,0 +1,49 @@
+#include "Useful.h"
+
+/* ------ Console Modifications ------ */
+void TextColor(const int &k)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, k);
+}
+
+void TextBig()
+{
+    static CONSOLE_FONT_INFOEX  fontex;
+    fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetCurrentConsoleFontEx(hOut, 0, &fontex);
+    fontex.dwFontSize.X = 32;
+    fontex.dwFontSize.Y = 32;
+    SetCurrentConsoleFontEx(hOut, NULL, &fontex);
+}
+
+void TextNormal()
+{
+    static CONSOLE_FONT_INFOEX  fontex;
+    fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetCurrentConsoleFontEx(hOut, 0, &fontex);
+    fontex.dwFontSize.X = 18;
+    fontex.dwFontSize.Y = 18;
+    SetCurrentConsoleFontEx(hOut, NULL, &fontex);
+}
+
+string InputToLower(string& text)
+{
+    for (int i = 0; i < text.size(); i++) text[i] = tolower(text[i]);
+    return text;
+}
+
+vector<string> TreatInput(string& input)
+{
+    vector<string> inputArguments;
+
+    input = InputToLower(input);
+
+    stringstream ss(input);
+    string word;
+    
+    while (ss >> word) inputArguments.push_back(word);
+    return inputArguments;
+}
