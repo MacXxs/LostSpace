@@ -150,14 +150,23 @@ void Player::Place(const vector<string>& input)
 							Item* container = (Item*)(*it);
 							if (container->IsAContainer())
 							{
-								Entity* backpack = item->parent;
-								backpack->contains.remove(item);
+								if (container->HasSapce())
+								{
+									Entity* backpack = item->parent;
+									backpack->contains.remove(item);
 
-								container->contains.push_back(item);
-								item->parent = container;
+									container->contains.push_back(item);
+									item->parent = container;
 
-								cout << "You've put the " << input[1] << " in the " 
-									<< input[3] << endl;
+									cout << "You've put the " << input[1] << " in the "
+										<< input[3] << endl;
+								}
+								else 
+								{
+									cout << "There's no room for more items in the "
+										<< container->name << endl;
+								}
+								
 							}
 							else cout << "The destination item must be a container." << endl;
 						}
@@ -203,27 +212,42 @@ void Player::Use(const vector<string>& input)
 			Room* room = this->Location();
 			bool match = false;
 
-			if (input[2] == "on")
-			{
-				for (list<Entity*>::iterator it = room->contains.begin();
-					it != room->contains.end(); it++)
+			switch (input.size())
+			{ 
+			case 2: // Use item
+				if (item->IsARecorder())
 				{
-					if ((*it)->name == input[3])
+					item->Play();
+				}
+				break;
+			case 4: // Use item on something
+				if (input[2] == "on")
+				{
+					for (list<Entity*>::iterator it = room->contains.begin();
+						it != room->contains.end(); it++)
 					{
-						if ((*it)->type == Type::EXIT) // Use item on exit
+						if ((*it)->name == input[3])
 						{
-							Exit* exit = (Exit*)(*it);
-							exit->Unlock(item);
-						}
-						else {
-							cout << "The " << input[1] << " can't be used on the " 
-								<< input[3] << '.' << endl;
+							match = true;
+
+							if ((*it)->type == Type::EXIT) // Use item on exit
+							{
+								Exit* exit = (Exit*)(*it);
+								exit->Unlock(item);
+							}
+							else {
+								cout << "The " << input[1] << " can't be used on the "
+									<< input[3] << '.' << endl;
+							}
+							break;
 						}
 					}
 				}
+				else cout << "An item has to be used \"on\" something else, not \""
+					<< input[2] << "\" something." << endl;
+
+				break;
 			}
-			else cout << "An item has to be used \"on\" something else, not \"" 
-				<< input[2] << "\" something." << endl;
 		}
 	}
 }
@@ -279,6 +303,7 @@ void Player::Inventory() const
 		Item* backpack = (Item*)this->contains.front();
 
 		cout << "You look inside your backpack and you find: " << endl;
+
 		for (list<Entity*>::iterator it = backpack->contains.begin();
 			it != backpack->contains.end(); it++)
 		{
@@ -301,14 +326,22 @@ void Player::AddItemToBackpack(Item* item)
 	// Change the item's parent to the backpack
 	// and add the item to the list of items
 	// contained in the backpack
-	Entity* parent = (Entity*)item->parent;
-	parent->contains.remove(item);
-
 	Item* backpack = (Item*)this->contains.front();
-	backpack->contains.push_back(item);
-	item->parent = backpack;
 
-	cout << "You've grabbed the " << item->name << "." << endl;
+	if (backpack->HasSapce()) 
+	{
+		Entity* parent = (Entity*)item->parent;
+		parent->contains.remove(item);
+
+		backpack->contains.push_back(item);
+		item->parent = backpack;
+
+		cout << "You've grabbed the " << item->name << "." << endl;
+	}
+	else 
+	{
+		cout << "There's no room in your inventory for another item, drop something." << endl;
+	}
 }
 
 Item* Player::GetItemFromBackpack(const string& name)
