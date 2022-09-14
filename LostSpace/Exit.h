@@ -31,9 +31,9 @@ public:
 
 	~Exit();
 
-	void Look() const;
+	void Look(const Room* room) const;
 	bool Locked() const;
-	string DoorDirection() const;
+	string DoorDirection(const Room* room) const;
 
 };
 

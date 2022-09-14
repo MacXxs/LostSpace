@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Useful.h"
 #include "Item.h"
+#include "Exit.h"
 
 Player::Player(const string& name, const string& description, Room* location, int health) :
 	Creature(name, description, location, health) 
@@ -14,8 +15,8 @@ void Player::Look(const vector<string>& input) const
 {
 	bool match = false;
 
-	if (input.size() == 1) // Look at the room
-		parent->Look();
+	if (input.size() == 1) // Look at the whole room
+		this->parent->Look();
 	else if (input.size() == 2)
 	{
 		Room* room = Location();
@@ -27,7 +28,12 @@ void Player::Look(const vector<string>& input) const
 			{
 				match = true;
 
-				(*it)->Look();
+				if ((*it)->type == Type::EXIT) // Look at the exits
+				{
+					Exit* exit = (Exit*)(*it);
+					exit->Look(room);
+				}
+				else (*it)->Look();
 				break;
 			}
 		}
@@ -144,8 +150,8 @@ void Player::Place(const vector<string>& input)
 							Item* container = (Item*)(*it);
 							if (container->IsAContainer())
 							{
-								Entity* parent = item->parent;
-								parent->contains.remove(item);
+								Entity* backpack = item->parent;
+								backpack->contains.remove(item);
 
 								container->contains.push_back(item);
 								item->parent = container;
@@ -162,6 +168,31 @@ void Player::Place(const vector<string>& input)
 			else cout << "An item has to be placed \"in\" a container, not \"" << input[2] << "\"." << endl;
 		}
 	}
+}
+
+void Player::Drop(const vector<string>& input)
+{
+	if (BackpackEquipped())
+	{
+		Item* item = GetItemFromBackpack(input[1]); // Item to be dropped
+
+		if (item != NULL)
+		{
+			Entity* backpack = item->parent;
+			backpack->contains.remove(item);
+
+			Room* room = this->Location();
+			room->contains.push_back(item);
+			item->parent = room;
+
+			cout << "Item dropped on the ground." << endl;
+		}
+	}
+}
+
+void Player::Use(const vector<string>& input)
+{
+	NULL;
 }
 
 void Player::Inventory() const

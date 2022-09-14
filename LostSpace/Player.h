@@ -17,6 +17,8 @@ public:
 	void Open(const vector<string>& input) const;
 	void Grab(const vector<string>& input);
 	void Place(const vector<string>& input);
+	void Drop(const vector<string>& input);
+	void Use(const vector<string>& input);
 
 	void Inventory() const;
 	bool BackpackEquipped() const;

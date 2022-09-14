@@ -1,4 +1,5 @@
 #include "Room.h"
+#include "Exit.h"
 
 Room::Room(const string& name, const string& description) : 
 	Entity(name, description, NULL)
@@ -21,7 +22,8 @@ void Room::Look() const
 		}
 		else if ((*it)->type == Type::EXIT)
 		{
-			(*it)->Look();
+			Exit* exit = (Exit*)(*it);
+			exit->Look(this);
 		}
 	}
 }

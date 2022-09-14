@@ -15,6 +15,7 @@ public:
 	~Creature();
 
 	virtual void Look() const;
+
 	bool Dead() const;
 	Room* Location() const;
 };

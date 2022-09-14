@@ -21,16 +21,16 @@ Exit::Exit
 
 Exit::~Exit(){}
 
- void Exit::Look() const
+ void Exit::Look(const Room* room) const
 {
 	if (!Locked())
 	{
-		cout << "To the " << DoorDirection() << " there's an opened " << this->name << ". "
+		cout << "To the " << DoorDirection(room) << " there's an opened " << this->name << ". "
 			<< this->openDesc << endl;
 	}
 	else
 	{
-		cout << "To the " << DoorDirection() << " there's a closed " << this->name << ". "
+		cout << "To the " << DoorDirection(room) << " there's a closed " << this->name << ". "
 			<< this->description << endl;
 	}
 }
@@ -40,29 +40,35 @@ bool Exit::Locked() const
 	return this->locked == true;
 }
 
-string Exit::DoorDirection() const
+string Exit::DoorDirection(const Room* room) const
 {
 	string dir;
 
 	switch (this->direction)
 	{
 	case(Direction::NORTH):
-		dir = "north";
+		if (room == this->source) dir = "north";
+		else dir = "south";
 		break;
 	case(Direction::SOUTH):
-		dir = "south";
+		if (room == this->source) dir = "south";
+		else dir = "north";
 		break;
 	case(Direction::EAST):
-		dir = "east";
+		if (room == this->source) dir = "east";
+		else dir = "west";
 		break;
 	case(Direction::WEST):
-		dir = "west";
+		if (room == this->source) dir = "west";
+		else dir = "east";
 		break;
 	case(Direction::UP):
-		dir = "up";
+		if (room == this->source) dir = "up";
+		else dir = "down";
 		break;
 	case(Direction::DOWN):
-		dir = "down";
+		if (room == this->source) dir = "down";
+		else dir = "up";
 		break;
 	}
 

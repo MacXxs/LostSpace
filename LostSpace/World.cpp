@@ -33,6 +33,7 @@ in lockdown, a universal_key will be needed to open it.",
 		quarters, 
 		hall, 
 		true);
+	hall->contains.push_back(quartersExit);
 
 	entities.push_back(quartersExit);
 
@@ -117,6 +118,10 @@ bool World::Action(vector<string>& input)
 		else if (input[0] == "grab")
 		{
 			player->Grab(input);
+		}
+		else if (input[0] == "drop")
+		{
+			player->Drop(input);
 		}
 		else
 		{
