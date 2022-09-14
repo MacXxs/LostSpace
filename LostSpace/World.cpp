@@ -66,6 +66,8 @@ in lockdown, a universal_key will be needed to open it.",
 		false,
 		true);
 
+	quartersExit->key = key;
+
 	entities.push_back(backpack);
 	entities.push_back(flashlight);
 	entities.push_back(lockers);
@@ -100,10 +102,7 @@ bool World::Action(vector<string>& input)
 		{
 			player->Inventory();
 		}
-		else
-		{
-			valid = false;
-		}
+		else valid = false;
 		break;
 
 	case 2:
@@ -123,15 +122,20 @@ bool World::Action(vector<string>& input)
 		{
 			player->Drop(input);
 		}
-		else
-		{
-			valid = false;
-		}
+		else valid = false;
+		break;
+
 	case 4:
 		if (input[0] == "place")
 		{
 			player->Place(input);
 		}
+		else if (input[0] == "use")
+		{
+			player->Use(input);
+		}
+		else valid = false;
+		break;
 	}
 	return valid;
 }

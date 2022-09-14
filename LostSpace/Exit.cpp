@@ -21,7 +21,7 @@ Exit::Exit
 
 Exit::~Exit(){}
 
- void Exit::Look(const Room* room) const
+void Exit::Look(const Room* room) const
 {
 	if (!Locked())
 	{
@@ -33,6 +33,16 @@ Exit::~Exit(){}
 		cout << "To the " << DoorDirection(room) << " there's a closed " << this->name << ". "
 			<< this->description << endl;
 	}
+}
+
+void Exit::Unlock(const Item* item)
+{
+	if (item == this->key)
+	{
+		this->locked = false;
+		cout << "The " << this->name << " is unlocked" << endl;
+	}
+	else cout << "The " << item->name << " can't open the " << this->name << "." << endl;
 }
 
 bool Exit::Locked() const
