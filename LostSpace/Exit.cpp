@@ -1,4 +1,5 @@
 #include "Exit.h"
+#include "Room.h"
 
 Exit::Exit
 (
@@ -25,13 +26,37 @@ void Exit::Look(const Room* room) const
 {
 	if (!Locked())
 	{
-		cout << "To the " << DoorDirection(room) << " there's an opened " << this->name << ". "
-			<< this->openDesc << endl;
+		if (DoorDirection(room) == "up")
+		{
+			cout << "On the cieling there's an opened " << this->name << ". "
+				<< this->openDesc << endl;
+		}
+		else if (DoorDirection(room) == "down")
+		{
+			cout << "On the floor there's an opened " << this->name << ". "
+				<< this->openDesc << endl;
+		}
+		else {
+			cout << "To the " << DoorDirection(room) << " there's an opened " << this->name << ". "
+				<< this->openDesc << endl;
+		}
 	}
 	else
 	{
-		cout << "To the " << DoorDirection(room) << " there's a closed " << this->name << ". "
-			<< this->description << endl;
+		if (DoorDirection(room) == "up") 
+		{
+			cout << "On the cieling there's a closed " << this->name << ". "
+				<< this->description << endl;
+		}
+		else if (DoorDirection(room) == "down")
+		{
+			cout << "On the floor there's a closed " << this->name << ". "
+				<< this->description << endl;
+		}
+		else {
+			cout << "To the " << DoorDirection(room) << " there's a closed " << this->name << ". "
+				<< this->description << endl;
+		}
 	}
 }
 
@@ -39,8 +64,12 @@ void Exit::Unlock(const Item* item)
 {
 	if (item == this->key)
 	{
-		this->locked = false;
-		cout << "The " << this->name << " is unlocked" << endl;
+		if (Locked())
+		{
+			this->locked = false;
+			cout << "The " << this->name << " is unlocked" << endl;
+		}
+		else cout << "The " << this->name << " is already unlocked" << endl;
 	}
 	else cout << "The " << item->name << " can't open the " << this->name << "." << endl;
 }

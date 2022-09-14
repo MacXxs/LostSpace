@@ -3,8 +3,7 @@
 
 #include "Entity.h"
 #include "Item.h"
-
-enum class Direction { NORTH, SOUTH, EAST, WEST, UP, DOWN};
+#include "Useful.h"
 
 class Room;
 
@@ -37,6 +36,7 @@ public:
 
 	bool Locked() const;
 	string DoorDirection(const Room* room) const;
+
 };
 
 #endif // !EXIT_H

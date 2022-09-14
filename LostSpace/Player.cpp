@@ -228,6 +228,50 @@ void Player::Use(const vector<string>& input)
 	}
 }
 
+void Player::Go(const vector<string>& input)
+{
+	Room* room = this->Location();
+	bool match = false;
+
+	for (list<Entity*>::iterator it = room->contains.begin();
+		it != room->contains.end(); it++)
+	{
+		if ((*it)->type == Type::EXIT) // Go through an exit
+		{
+			Exit* exit = (Exit*)(*it);
+			
+			if (input[0] == exit->DoorDirection(room))
+			{
+				match = true;
+
+				if (!exit->Locked())
+				{
+					if (room == exit->source)
+					{
+						Room* destination = exit->destination;
+
+						room->contains.remove(this);
+						destination->contains.push_back(this);
+
+						this->parent = destination;
+					}
+					else {
+						Room* source = exit->source;
+
+						room->contains.remove(this);
+						source->contains.push_back(this);
+
+						this->parent = source;
+					}
+					this->parent->Look();
+				}
+				else cout << "The " << exit->name << " is locked." << endl;
+			}
+		}
+	}
+	if (!match) cout << "There's a wall here." << endl;
+}
+
 void Player::Inventory() const
 {
 	if (BackpackEquipped())

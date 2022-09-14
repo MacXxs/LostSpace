@@ -16,12 +16,17 @@ little shinning stars in the distance.");
 	Room* hall = new Room(
 		"Main Hall", 
 		"You are in the main hall. There's a big dining table in the center of the room.\n\
-On the north wall there's a ladder with a hatch leading to the Comms Room. \
 To the west side of the hall there's a half opened door leading to a corridor, red light \
 slithers through the door openings.");
+	Room* comms = new Room(
+		"Comms Room",
+		"There is a big window on the east side of the room, showing a giant planet with what \
+seems 10 moons orbiting around it at the very least, the planet has an even more gygantic belt \
+formed by giant rocks of ice that disappear under the ship.");
 
 	entities.push_back(quarters);
 	entities.push_back(hall);
+	entities.push_back(comms);
 
 	// Exits
 	Exit* quartersExit = new Exit(
@@ -35,10 +40,21 @@ in lockdown, a universal_key will be needed to open it.",
 		true);
 	hall->contains.push_back(quartersExit);
 
+	Exit* hatch = new Exit(
+		"hatch",
+		"",
+		"The hatch has a metal ladder for climbing up and down.",
+		Direction::UP,
+		hall,
+		comms,
+		false);
+	comms->contains.push_back(hatch);
+	
 	entities.push_back(quartersExit);
+	entities.push_back(comms);
 
 	// Player
-	player = new Player("Isaac Cramp", "The amnesic hero of this game.", quarters, 10);
+	this->player = new Player("Isaac Cramp", "The amnesic hero of this game.", quarters, 10);
 
 	entities.push_back(player);
 
@@ -65,13 +81,29 @@ in lockdown, a universal_key will be needed to open it.",
 		lockers,
 		false,
 		true);
-
 	quartersExit->key = key;
+
+	Item* spaghetti = new Item(
+		"spaghetti",
+		"A bag of non-spoiling spaghetti bolognese.",
+		hall,
+		false,
+		true
+	);
+	Item* menstor = new Item(
+		"menstor",
+		"An energy drink labeled \"Menstor\", this was a banger on earth!",
+		hall,
+		false,
+		true
+	);
 
 	entities.push_back(backpack);
 	entities.push_back(flashlight);
 	entities.push_back(lockers);
 	entities.push_back(key);
+	entities.push_back(spaghetti);
+	entities.push_back(menstor);
 }
 
 World::~World() {}
@@ -90,49 +122,55 @@ bool World::ValidCommand(vector<string>& input)
 bool World::Action(vector<string>& input)
 {
 	bool valid = true;
+	string command = input[0];
 
 	switch (input.size())
 	{
 	case 1:
-		if (input[0] == "look")
+		if (command == "look")
 		{
-			player->Look(input);
+			this->player->Look(input);
 		}
-		else if (input[0] == "inventory")
+		else if (command == "inventory")
 		{
-			player->Inventory();
+			this->player->Inventory();
+		}
+		else if (command == "north" || command == "south" || command == "east" ||
+			command == "west" || command == "up" || command == "down") 
+		{
+			this->player->Go(input);
 		}
 		else valid = false;
 		break;
 
 	case 2:
-		if (input[0] == "look")
+		if (command == "look")
 		{
-			player->Look(input);
+			this->player->Look(input);
 		}
-		else if (input[0] == "open")
+		else if (command == "open")
 		{
-			player->Open(input);
+			this->player->Open(input);
 		}
-		else if (input[0] == "grab")
+		else if (command == "grab")
 		{
-			player->Grab(input);
+			this->player->Grab(input);
 		}
-		else if (input[0] == "drop")
+		else if (command == "drop")
 		{
-			player->Drop(input);
+			this->player->Drop(input);
 		}
 		else valid = false;
 		break;
 
 	case 4:
-		if (input[0] == "place")
+		if (command == "place")
 		{
-			player->Place(input);
+			this->player->Place(input);
 		}
-		else if (input[0] == "use")
+		else if (command == "use")
 		{
-			player->Use(input);
+			this->player->Use(input);
 		}
 		else valid = false;
 		break;

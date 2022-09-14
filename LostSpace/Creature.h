@@ -8,7 +8,7 @@ class Creature : public Entity
 {
 
 public:
-	Room* location;
+	Room* parent;
 	int health;
 
 	Creature(const string& name, const string& description, Room* location, int& health);

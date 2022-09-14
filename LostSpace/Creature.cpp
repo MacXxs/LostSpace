@@ -4,7 +4,7 @@ Creature::Creature(const string& name, const string& description, Room* location
 	Entity(name, description, location)
 {
 	this->type = Type::CREATURE;
-	this->location = location;
+	this->parent = location;
 	this->health = health;
 }
 
@@ -30,5 +30,5 @@ bool Creature::Dead() const
 
 Room* Creature::Location() const
 {
-	return location;
+	return parent;
 }

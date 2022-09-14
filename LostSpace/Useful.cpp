@@ -47,3 +47,32 @@ vector<string> TreatInput(string& input)
     while (ss >> word) inputArguments.push_back(word);
     return inputArguments;
 }
+
+string GetDirection(const Direction& direction)
+{
+	string dir;
+
+	switch (direction)
+	{
+	case Direction::NORTH:
+		dir = "north";
+		break;
+	case Direction::SOUTH:
+		dir = "north";
+		break;
+	case Direction::EAST:
+		dir = "east";
+		break;
+	case Direction::WEST:
+		dir = "west";
+		break;
+	case Direction::UP:
+		dir = "up";
+		break;
+	case Direction::DOWN:
+		dir = "down";
+		break;
+	}
+
+	return dir;
+}

@@ -11,7 +11,8 @@ Room::~Room(){}
 
 void Room::Look() const
 {
-	Entity::Look();
+	cout << "---- " << this->name << " ----" << endl;
+	cout << this->description << endl;
 
 	// List everything in the room
 	for (list<Entity*>::const_iterator it = contains.begin(); it != contains.end(); it++)

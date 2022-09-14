@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Creature.h"
+#include "Exit.h"
 #include <vector>
 
 class Item;
@@ -19,6 +20,7 @@ public:
 	void Place(const vector<string>& input);
 	void Drop(const vector<string>& input);
 	void Use(const vector<string>& input);
+	void Go(const vector<string>& input);
 
 	void Inventory() const;
 	bool BackpackEquipped() const;
