@@ -14,7 +14,11 @@ Entity::~Entity(){}
 
 void Entity::Look() const
 {
-	cout << name << endl;
-	cout << description << endl;
+	cout << this->description << endl;
+}
+
+void Entity::Open() const
+{
+	cout << "You try to open the " << this->name << '.' << endl;
 }
 

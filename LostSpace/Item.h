@@ -21,6 +21,7 @@ public:
 	~Item();
 
 	void Look() const;
+	void Open() const;
 	bool IsAContainer() const;
 	bool IsEmpty() const;
 	bool IsGrabable() const;

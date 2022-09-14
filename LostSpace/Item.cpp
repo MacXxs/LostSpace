@@ -18,20 +18,18 @@ Item::~Item() {}
 
 void Item::Look() const
 {
-	if (this->contains.size() > 0)
+	Entity::Look();
+}
+
+void Item::Open() const
+{
+	cout << "You can find inside: " << endl;
+	for (
+		list<Entity*>::const_iterator it = this->contains.begin();
+		it != this->contains.end(); it++
+		)
 	{
-		cout << "You can find inside: " << endl;
-		for (
-			list<Entity*>::const_iterator it = this->contains.begin();
-			it != this->contains.end(); it++
-			)
-		{
-			cout << "\t- ";  (*it)->Look();
-		}
-	}
-	else
-	{
-		cout << "A " << this->name << ". " << this->description << endl;
+		cout << "\t- ";  (*it)->Look();
 	}
 }
 

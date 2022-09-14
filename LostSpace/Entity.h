@@ -6,7 +6,7 @@
 #include <list>
 using namespace std;
 
-enum class Type { ENTITY, CREATURE, EXIT, ROOM, ITEM };
+enum class Type { ENTITY, CREATURE, PLAYER, EXIT, ROOM, ITEM };
 
 class Entity
 {
@@ -23,6 +23,7 @@ public:
 	virtual ~Entity();
 
 	virtual void Look() const;
+	virtual void Open() const;
 };
 
 #endif // !ENTITY_H

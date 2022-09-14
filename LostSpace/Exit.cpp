@@ -25,19 +25,19 @@ Exit::~Exit(){}
 {
 	if (!Locked())
 	{
-		cout << "To the " << DoorDirection() << " there's an opened " << this->name << ' '
+		cout << "To the " << DoorDirection() << " there's an opened " << this->name << ". "
 			<< this->openDesc << endl;
 	}
 	else
 	{
-		cout << "To the " << DoorDirection() << " there's a closed " << this->name << ' ' 
+		cout << "To the " << DoorDirection() << " there's a closed " << this->name << ". "
 			<< this->description << endl;
 	}
 }
 
 bool Exit::Locked() const
 {
-	return this->locked;
+	return this->locked == true;
 }
 
 string Exit::DoorDirection() const
