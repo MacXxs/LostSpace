@@ -18,4 +18,3 @@ void Entity::Look() const
 	cout << description << endl;
 }
 
-

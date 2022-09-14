@@ -4,6 +4,8 @@
 #include "Creature.h"
 #include <vector>
 
+class Item;
+
 class Player : public Creature
 {
 
@@ -13,6 +15,9 @@ public:
 
 	void Look(vector<string>& input) const;
 	void Open(vector<string>& input) const;
-	void Grab(vector<string>& input) const;
+	void Grab(vector<string>& input);
+	bool BackpackEquipped() const;
+	void AddItemToBackpack(Item* item);
+
 };
 #endif // !PLAYER_H

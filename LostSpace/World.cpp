@@ -32,10 +32,22 @@ Direction::WEST, quarters, hall, true);
 	entities.push_back(player);
 
 	// Items
-	Item* backpack = new Item("backpack", "A small backpack, it might have something inside.", quarters, true);
-	Item* flashlight = new Item("flashlight", "A small but surprisingly powerful flashlight.", backpack);
-	Item* lockers = new Item("lockers", "A bunch of lockers belonging to the crew, there might be \
-something inside.", quarters, true);
+	Item* backpack = new Item(
+		"backpack", 
+		"A small backpack, it might have something inside.", 
+		quarters, true, true);
+	Item* flashlight = new Item(
+		"flashlight", 
+		"A small but surprisingly powerful flashlight.", 
+		backpack,
+		false,
+		true);
+	Item* lockers = new Item(
+		"lockers", 
+		"A bunch of lockers belonging to the crew, there might be something inside.", 
+		quarters, 
+		true,
+		false);
 
 	entities.push_back(backpack);
 	entities.push_back(flashlight);
@@ -52,7 +64,6 @@ bool World::ValidCommand(vector<string>& input)
 	{
 		valid = Action(input);
 	}
-
 	return valid;
 }
 
@@ -78,7 +89,7 @@ bool World::Action(vector<string>& input)
 		{
 			player->Open(input);
 		}
-		if (input[0] == "grab")
+		else if (input[0] == "grab")
 		{
 			player->Grab(input);
 		}
@@ -87,6 +98,5 @@ bool World::Action(vector<string>& input)
 			valid = false;
 		}
 	}
-
 	return valid;
 }
