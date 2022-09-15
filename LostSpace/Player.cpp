@@ -2,6 +2,7 @@
 #include "Useful.h"
 #include "Item.h"
 #include "Exit.h"
+#include "Recorder.h"
 
 Player::Player(const string& name, const string& description, Room* location, int health) :
 	Creature(name, description, location, health) 
@@ -150,7 +151,7 @@ void Player::Place(const vector<string>& input)
 							Item* container = (Item*)(*it);
 							if (container->IsAContainer())
 							{
-								if (container->HasSapce())
+								if (container->HasSpace())
 								{
 									Entity* backpack = item->parent;
 									backpack->contains.remove(item);
@@ -215,9 +216,19 @@ void Player::Use(const vector<string>& input)
 			switch (input.size())
 			{ 
 			case 2: // Use item
-				if (item->IsARecorder())
+				if (item->itemType == ItemType::RECORDER)
 				{
-					item->Play();
+					Recorder* recording = (Recorder*)(item);
+					recording->Play();
+				}
+				else if (item->IsALightSource())
+				{
+					if (!room->Illuminated()) {
+						room->lighten = true;
+						cout << "You use the " << input[1] << " to illuminate the room." << endl;
+						room->Look();
+					}
+					else cout << "The room has sufficient light to see." << endl;
 				}
 				break;
 			case 4: // Use item on something
@@ -278,6 +289,7 @@ void Player::Go(const vector<string>& input)
 						destination->contains.push_back(this);
 
 						this->parent = destination;
+
 					}
 					else {
 						Room* source = exit->source;
@@ -287,6 +299,8 @@ void Player::Go(const vector<string>& input)
 
 						this->parent = source;
 					}
+					room->lighten = room->lightState; // Room lighting
+
 					this->parent->Look();
 				}
 				else cout << "The " << exit->name << " is locked." << endl;
@@ -328,7 +342,7 @@ void Player::AddItemToBackpack(Item* item)
 	// contained in the backpack
 	Item* backpack = (Item*)this->contains.front();
 
-	if (backpack->HasSapce()) 
+	if (backpack->HasSpace()) 
 	{
 		Entity* parent = (Entity*)item->parent;
 		parent->contains.remove(item);

@@ -17,7 +17,7 @@ int main()
 
     cout << "Welcome to Lost space!" << endl;
     cout << "The USG Not Ishimura explorer spacecraft is in searh for a new system with a \
-habitable planet. \nDuring cryo something happens, our hero wakes up alone in the crew quarters \
+habitable planet. \nDuring cryosleep something happens, our hero wakes up alone in the crew quarters \
 after 100 years of slumber.\n" << endl;
 
     World ishimura;
@@ -40,8 +40,9 @@ after 100 years of slumber.\n" << endl;
         }
 
         cout << "\n> ";
+        TextColor(BLUE);
         getline(cin, input);
-        
+        TextColor(GREEN);
     }
     
     TextColor(WHITE);

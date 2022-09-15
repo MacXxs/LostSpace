@@ -1,5 +1,4 @@
 #include <Windows.h>
-#include "Useful.h"
 #include "Item.h"
 
 Item::Item
@@ -7,18 +6,18 @@ Item::Item
 	const string& name,
 	const string& description,
 	Entity* location,
-	bool container,
-	bool grabable,
-	bool recorder,
-	int spaces,
-	const string& recording) :
+	const bool& container,
+	const unsigned int& spaces,
+	const bool& grabable,
+	bool lightSource) :
 	Entity(name, description, location)
 {
 	this->type = Type::ITEM;
+	this->itemType = ItemType::ITEM;
 	this->container = container;
-	this->grabable = grabable;
 	this->spaces = spaces;
-	this->recording = recording;
+	this->grabable = grabable;
+	this->lightSource = lightSource;
 }
 
 Item::~Item() {}
@@ -38,21 +37,6 @@ void Item::Open() const
 	{
 		cout << "\t- ";  (*it)->Look();
 	}
-}
-
-void Item::Play() const
-{
-	string recording = this->recording;
-	TextColor(RED);
-
-	for (char& c : recording)
-	{
-		printf("%c",c);
-		Sleep(35);
-	}
-	cout << '\n';
-
-	TextColor(BRIGHT_GREEN);
 }
 
 bool Item::IsAContainer() const
@@ -81,12 +65,12 @@ bool Item::IsGrabable() const
 	return grabable;
 }
 
-bool Item::IsARecorder() const
-{
-	return this->recorder == true;
-}
-
-bool Item::HasSapce() const
+bool Item::HasSpace() const
 {
 	return this->spaces > this->contains.size();
+}
+
+bool Item::IsALightSource() const
+{
+	return this->lightSource == true;
 }

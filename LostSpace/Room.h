@@ -5,11 +5,23 @@
 
 class Room : public Entity
 {
+
 public:
-	Room(const string& name, const string& description);
+	bool lighten;
+	bool lightState;
+	string darkDescription;
+
+	Room(
+		const string& name,
+		const string& description,
+		bool lighten = true,
+		bool lightState = true,
+		string darkDescription = "");
 	~Room();
 
 	void Look() const;
+
+	bool Illuminated() const;
 };
 
 #endif // !ROOM_H

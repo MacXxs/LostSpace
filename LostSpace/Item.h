@@ -3,13 +3,16 @@
 
 #include "Entity.h"
 
+enum class ItemType {ITEM, RECORDER, COMPUTER};
+
 class Item : public Entity
 {
 public:
 	
+	ItemType itemType;
 	bool container;
 	bool grabable;
-	bool recorder;
+	bool lightSource;
 	int spaces;
 	string recording;
 
@@ -18,23 +21,21 @@ public:
 		const string& name,
 		const string& description,
 		Entity* location,
-		bool container = false,
-		bool grabable = true,
-		bool recorder = false,
-		int spaces = 0,
-		const string& recording = ""
+		const bool& container = false,
+		const unsigned int& spaces = 0,
+		const bool& grabable = true,
+		bool lightSource = false
 	);
 	~Item();
 
-	void Look() const;
-	void Open() const;
-	void Play() const;
+	virtual void Look() const;
+	virtual void Open() const;
 
 	bool IsAContainer() const;
 	bool IsEmpty() const;
 	bool IsGrabable() const;
-	bool IsARecorder() const;
-	bool HasSapce() const;
+	bool IsALightSource() const;
+	bool HasSpace() const;
 };
 
 #endif // !ITEM_H
