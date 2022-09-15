@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Exit.h"
 #include "Recorder.h"
+#include "Computer.h"
 
 World::World()
 {
@@ -33,7 +34,7 @@ equipment."
 Just taking a quick look you can see that the red light that could be seen from the main hall wasn't \
 light produced naturally, it's blood..., the light coming from the blue dwarf that illuminates this \
 system is shining red by coming into contact with the blood splattered throughout the glass walls of \
-the bridge.\n An id card drenched in blood can be seen on the floor, it belonged to chief engineer Reynolds."
+the bridge.\nAn id card drenched in blood can be seen on the floor, it belonged to chief engineer Reynolds."
 	);
 	Room* engineRoom = new Room(
 		"Engine Room",
@@ -48,6 +49,12 @@ thickest walls on the ship.\nOn a corner of the far east of the room, there is a
 		"After going down the ladder for what it seemed half a minute you touch ground. \
 It's pitch black inside and you can't see nothing, the rumblings and the pulling \
 forces of a strange and giant object moving on the center of the room can be heard and felt."
+	);
+	Room* flightDeck = new Room(
+		"Flight Deck",
+		"The flight deck of the ship, you can see the on-board computer to the easternmost side of \
+the room next to six chairs. The wall next to the computer is made of glass, and you can see the \
+rest of the system your are in, it seems it has two stars."
 	);
 
 	entities.push_back(quarters);
@@ -65,18 +72,22 @@ in lockdown, a universal_key will be needed to open it.",
 		Direction::WEST, 
 		quarters, 
 		hall, 
-		true);
+		true
+	);
 	hall->contains.push_back(quartersExit);
+
 	Exit* hallDoor = new Exit(
 		"broken_door",
 		"",
 		"Red light slithers through the door openings. The door is broken and can't \
 close propertly, what could have done this?",
-Direction::WEST,
-hall,
-bridge,
-false);
+		Direction::WEST,
+		hall,
+		bridge,
+		false
+	);
 	bridge->contains.push_back(hallDoor);
+
 	Exit* hatch = new Exit(
 		"hatch",
 		"",
@@ -84,8 +95,10 @@ false);
 		Direction::UP,
 		hall,
 		comms,
-		false);
+		false
+	);
 	comms->contains.push_back(hatch);
+
 	Exit* bridgeHatch = new Exit(
 		"hatch",
 		"",
@@ -93,12 +106,25 @@ false);
 		Direction::DOWN,
 		bridge,
 		engineRoom,
-		false);
+		false
+	);
 	engineRoom->contains.push_back(bridgeHatch);
+
+	Exit* sealedDoor = new Exit(
+		"security_door",
+		"The security_door can only be opened once the emergency lockdown is lifted.",
+		"With the lockdown lifted the door is open.",
+		Direction::WEST,
+		bridge,
+		flightDeck,
+		true
+	);
+	flightDeck->contains.push_back(sealedDoor);
 	
 	entities.push_back(quartersExit);
 	entities.push_back(comms);
 	entities.push_back(hallDoor);
+	entities.push_back(sealedDoor);
 
 	/* ------------------- PLAYER ------------------- */
 	this->player = new Player("Isaac Cramp", "The amnesic hero of this game.", quarters, 10);
@@ -183,6 +209,29 @@ i'm probably dead. Please try to destroy the No Ishimura, we can't allow a rescu
 take this thing back to earth.";
 
 	entities.push_back(audiolog);
+
+	/* ------------------- COMPUTERS ------------------- */
+	Computer* securityTerminal = new Computer(
+		"security_terminal",
+		"A security_terminal that controls the ship's emergency system, among other things.",
+		engineRoom,
+		false,
+		0,
+		false,
+		false,
+		"Lockdown has been lifted. All systems running.",
+		"Emergency lockdown in process, please confirm your identity \
+through the handprint scanner in order to turn it off.",
+		"Permission granted chief engineer Reynolds, lockdown lifted.",
+		"Astronautical Engineer, Isaac Cramp. No permission to disable \
+lockdown, only chief engineer Jhon Reynolds has clearance.",
+		false,
+		severedHand,
+		sealedDoor
+	);
+	sealedDoor->key = securityTerminal;
+
+	entities.push_back(securityTerminal);
 }
 
 World::~World() {}

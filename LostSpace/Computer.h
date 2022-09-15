@@ -2,27 +2,43 @@
 #define COMPUTER_H
 
 #include "Item.h"
+#include <vector>
+
+class Exit;
 
 class Computer : public Item
 {
 public:
+	string onText;
+	string offText;
+	string validation;
+	string error;
+	bool done;
+	Item* key;
+	Exit* exit;
+
 	Computer
 	(
 		const string& name,
 		const string& description,
-		Entity* location,
-		const bool& container = false,
-		const bool& grabable = true,
-		const int& spaces = 0,
+		Entity* parent,
+		const bool& container,
+		const int& spaces,
+		const bool& grabable,
+		const bool& lightSource,
 		const string& onText = "",
 		const string& offText = "",
 		const string& validation = "",
-		const string& error = ""
+		const string& error = "",
+		const bool& done = false,
+		Item* key = NULL,
+		Exit* exit = NULL
 	);
 	~Computer();
 
 	void Look() const;
 	void Use() const;
+	void Use(const Item* key);
 };
 
 #endif // !COMPUTER_H

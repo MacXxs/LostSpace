@@ -20,13 +20,13 @@ public:
 	(
 		const string& name,
 		const string& description,
-		Entity* location,
+		Entity* parent,
 		const bool& container = false,
 		const int& spaces = 0,
 		const bool& grabable = true,
-		bool lightSource = false
+		const bool& lightSource = false
 	);
-	~Item();
+	virtual ~Item();
 
 	virtual void Look() const;
 	virtual void Open() const;

@@ -26,7 +26,8 @@ public:
 		Direction direction,
 		Room* source,
 		Room* destination,
-		bool locked
+		bool locked,
+		Item* key = NULL
 	);
 
 	~Exit();

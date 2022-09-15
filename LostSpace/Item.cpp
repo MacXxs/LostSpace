@@ -5,12 +5,12 @@ Item::Item
 (
 	const string& name,
 	const string& description,
-	Entity* location,
+	Entity* parent,
 	const bool& container,
 	const int& spaces,
 	const bool& grabable,
-	bool lightSource) :
-	Entity(name, description, location)
+	const bool& lightSource) :
+	Entity(name, description, parent)
 {
 	this->type = Type::ITEM;
 	this->itemType = ItemType::ITEM;

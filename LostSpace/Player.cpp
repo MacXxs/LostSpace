@@ -285,10 +285,24 @@ void Player::Use(const vector<string>& input)
 						{
 							match = true;
 
-							if ((*it)->type == Type::EXIT) // Use item on exit
+							if ((*it)->type == Type::EXIT) // Use item on an exit
 							{
 								Exit* exit = (Exit*)(*it);
 								exit->Unlock(item);
+							}
+							else if ((*it)->type == Type::ITEM)
+							{
+								Item* itemAux = (Item*)(*it);
+								
+								if (itemAux->itemType == ItemType::COMPUTER) // Use item on a computer
+								{
+									Computer* computer = (Computer*)itemAux;
+									computer->Use(item);
+								}
+								else {
+									cout << "The " << input[1] << " can't be used on the "
+										<< input[3] << '.' << endl;
+								}
 							}
 							else {
 								cout << "The " << input[1] << " can't be used on the "

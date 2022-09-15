@@ -9,7 +9,8 @@ Exit::Exit
 	Direction direction,
 	Room* source,
 	Room* destination,
-	bool locked
+	bool locked,
+	Item* key
 ) : Entity(name, description, (Entity*)source)
 {
 	this->type = Type::EXIT;
@@ -18,6 +19,7 @@ Exit::Exit
 	this->source = source;
 	this->destination = destination;
 	this->locked = locked;
+	this->key = key;
 }
 
 Exit::~Exit(){}
