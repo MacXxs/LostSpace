@@ -6,6 +6,7 @@
 #include "Exit.h"
 #include "Recorder.h"
 #include "Computer.h"
+#include "Weapon.h"
 
 World::World()
 {
@@ -127,15 +128,39 @@ close propertly, what could have done this?",
 	entities.push_back(sealedDoor);
 
 	/* ------------------- PLAYER ------------------- */
-	this->player = new Player("Isaac Cramp", "The amnesic hero of this game.", flightDeck, 10);
+	this->player = new Player(
+		"Isaac Cramp", 
+		"The unfortunate hero of this game.",
+		"You are dead",
+		flightDeck, 
+		100,
+		10,
+		0.2);
 
 	entities.push_back(player);
+
+	/* ------------------- ENEMY ------------------- */
+	Creature* alien = new Creature(
+		"alien", 
+		"A disfigured creature with a humanoid figure. It has long legs and arms, like a prying \
+mantis, and some sort of transparent membrane covers what used to be the sides of the abdomen until \
+it reaches the \"elbows\" of this aberration. The mouth has too many teeths to count, and you know \
+by looking at its blank and death stare that it's going to attack at any moment.",
+		"It seems to be dead but i don't know for sure, I'm not getting any closer to find \
+it out.", 
+		flightDeck, 
+		100,
+		40,
+		0,
+		NULL);
+
+	entities.push_back(alien);
 
 	/* ------------------- ITEMS ------------------- */
 	Item* backpack = new Item(
 		"backpack",
 		"A small backpack, it might have something inside.",
-		quarters, 
+		player, 
 		true, 
 		4,
 		true,
@@ -173,11 +198,6 @@ close propertly, what could have done this?",
 		"An energy drink labeled \"Menstor\", this was a banger on earth!",
 		hall
 	);
-	Item* plasmaCutter = new Item(
-		"plasma_cutter",
-		"A plasma_cutter used to slice through materials quickly, it could be used as a gun",
-		comms
-	);
 	Item* severedHand = new Item(
 		"severed_hand",
 		"A very dead severed_hand.",
@@ -190,8 +210,17 @@ close propertly, what could have done this?",
 	entities.push_back(key);
 	entities.push_back(spaghetti);
 	entities.push_back(menstor);
-	entities.push_back(plasmaCutter);
 	entities.push_back(severedHand);
+
+	/* ------------------- WEAPONS ---------------------- */
+	Weapon* plasmaCutter = new Weapon(
+		"plasma_cutter",
+		"A plasma_cutter used to slice through materials quickly, it could be used as a gun",
+		backpack,
+		15
+	);
+
+	entities.push_back(plasmaCutter);
 
 	/* ------------------- RECORDINGS ------------------- */
 	Recorder* audiolog = new Recorder(
@@ -297,6 +326,10 @@ bool World::Action(vector<string>& input)
 			{
 				this->player->Go(input);
 			}
+			else if (command == "attack")
+			{
+				this->player->Attack(input);
+			}
 			else valid = false;
 			break;
 
@@ -321,6 +354,10 @@ bool World::Action(vector<string>& input)
 			{
 				this->player->Use(input);
 			}
+			else if (command == "attack")
+			{
+				this->player->Attack(input);
+			}
 			else valid = false;
 			break;
 
@@ -332,6 +369,10 @@ bool World::Action(vector<string>& input)
 			else if (command == "use")
 			{
 				this->player->Use(input);
+			}
+			else if (command == "attack")
+			{
+				this->player->Attack(input);
 			}
 			else valid = false;
 			break;

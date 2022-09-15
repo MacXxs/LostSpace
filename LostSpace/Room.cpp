@@ -38,6 +38,13 @@ void Room::Look() const
 			Exit* exit = (Exit*)(*it);
 			exit->Look(this);
 		}
+		else if ((*it)->type == Type::CREATURE)
+		{
+			if ((*it)->type != Type::PLAYER)
+			{
+				(*it)->Look();
+			}
+		}
 	}
 }
 

@@ -4,9 +4,19 @@
 #include "Exit.h"
 #include "Recorder.h"
 #include "Computer.h"
+#include "Weapon.h"
 
-Player::Player(const string& name, const string& description, Room* location, int health) :
-	Creature(name, description, location, health) 
+Player::Player(
+	const string& name, 
+	const string& description, 
+	const string& ripDescription,
+	Room* location, 
+	const int& health,
+	const int& baseDamage,
+	const double& armor,
+	Creature* target
+) :
+	Creature(name, description, ripDescription, location, health, baseDamage, armor, target)
 {
 	this->type = Type::PLAYER;
 }
@@ -207,121 +217,125 @@ void Player::Drop(const vector<string>& input)
 
 void Player::Use(const vector<string>& input)
 {
-	
-	Room* room = this->Location();
-	Item* item;
-	bool match = false;
-
-	switch (input.size())
+	if (this->target == NULL) // Player isn't in combat
 	{ 
-	case 2: // Use item from backpack or item in the room
+		Room* room = this->Location();
+		Item* item;
+		bool match = false;
 
-		for (list<Entity*>::iterator it = room->contains.begin();
-			it != room->contains.end(); it++)
+		switch (input.size())
 		{
-			if ((*it)->name == input[1]) // Use room item
-			{
-				item = (Item*)(*it);
-				match = true;
-				if (item->itemType == ItemType::RECORDER)
-				{
-					Recorder* recording = (Recorder*)(item);
-					recording->Play();
-				}
-				else if (item->itemType == ItemType::COMPUTER)
-				{
-					Computer* computer = (Computer*)(item);
+		case 2: // Use item from backpack or item in the room
 
-					// You've reached the ending, and with it your death
-					if (computer->ending) this->health = 0; 
-					computer->Use();
-				}
-				else cout << "You can't use the " << input[1] << endl;
-			}
-		}
-		if (!match)
-		{
-			if (BackpackEquipped())
+			for (list<Entity*>::iterator it = room->contains.begin();
+				it != room->contains.end(); it++)
 			{
-				Item* item = GetItemFromBackpack(input[1]);
-
-				if (item != NULL) // Use backpack item
+				if ((*it)->name == input[1]) // Use room item
 				{
+					item = (Item*)(*it);
 					match = true;
 					if (item->itemType == ItemType::RECORDER)
 					{
 						Recorder* recording = (Recorder*)(item);
 						recording->Play();
 					}
-					else if (item->IsALightSource())
+					else if (item->itemType == ItemType::COMPUTER)
 					{
-						if (!room->Illuminated()) {
-							room->lighten = true;
-							cout << "You use the " << input[1] 
-								<< " to illuminate the room." << endl;
-							room->Look();
-						}
-						else cout << "The room has sufficient light to see." << endl;
+						Computer* computer = (Computer*)(item);
+
+						// You've reached the ending, and with it your death
+						if (computer->ending) this->health = 0;
+						computer->Use();
 					}
-					else cout << "You can't use the " << input[1] 
-						<< " or it need to be used \"on\" something." << endl;
+					else cout << "You can't use the " << input[1] << endl;
 				}
-				else cout << "There is no " << input[1] 
-					<< " in your backpack or anywhere around to use." << endl;
 			}
-		}
-
-		break;
-	case 4: // Use item on something
-		if (BackpackEquipped())
-		{
-			item = GetItemFromBackpack(input[1]);
-
-			if (item != NULL) // Use backpack item
+			if (!match)
 			{
-				if (input[2] == "on")
+				if (BackpackEquipped())
 				{
-					for (list<Entity*>::iterator it = room->contains.begin();
-						it != room->contains.end(); it++)
-					{
-						if ((*it)->name == input[3])
-						{
-							match = true;
+					Item* item = GetItemFromBackpack(input[1]);
 
-							if ((*it)->type == Type::EXIT) // Use item on an exit
-							{
-								Exit* exit = (Exit*)(*it);
-								exit->Unlock(item);
+					if (item != NULL) // Use backpack item
+					{
+						match = true;
+						if (item->itemType == ItemType::RECORDER)
+						{
+							Recorder* recording = (Recorder*)(item);
+							recording->Play();
+						}
+						else if (item->IsALightSource())
+						{
+							if (!room->Illuminated()) {
+								room->lighten = true;
+								cout << "You use the " << input[1]
+									<< " to illuminate the room." << endl;
+								room->Look();
 							}
-							else if ((*it)->type == Type::ITEM)
+							else cout << "The room has sufficient light to see." << endl;
+						}
+						else cout << "You can't use the " << input[1]
+							<< " or it need to be used \"on\" something." << endl;
+					}
+					else cout << "There is no " << input[1]
+						<< " in your backpack or anywhere around to use." << endl;
+				}
+			}
+
+			break;
+		case 4: // Use item on something
+			if (BackpackEquipped())
+			{
+				item = GetItemFromBackpack(input[1]);
+
+				if (item != NULL) // Use backpack item
+				{
+					if (input[2] == "on")
+					{
+						for (list<Entity*>::iterator it = room->contains.begin();
+							it != room->contains.end(); it++)
+						{
+							if ((*it)->name == input[3])
 							{
-								Item* itemAux = (Item*)(*it);
-								
-								if (itemAux->itemType == ItemType::COMPUTER) // Use item on a computer
+								match = true;
+
+								if ((*it)->type == Type::EXIT) // Use item on an exit
 								{
-									Computer* computer = (Computer*)itemAux;
-									computer->Use(item);
+									Exit* exit = (Exit*)(*it);
+									exit->Unlock(item);
+								}
+								else if ((*it)->type == Type::ITEM)
+								{
+									Item* itemAux = (Item*)(*it);
+
+									if (itemAux->itemType == ItemType::COMPUTER) // Use item on a computer
+									{
+										Computer* computer = (Computer*)itemAux;
+										computer->Use(item);
+									}
+									else {
+										cout << "The " << input[1] << " can't be used on the "
+											<< input[3] << '.' << endl;
+									}
 								}
 								else {
 									cout << "The " << input[1] << " can't be used on the "
 										<< input[3] << '.' << endl;
 								}
+								break;
 							}
-							else {
-								cout << "The " << input[1] << " can't be used on the "
-									<< input[3] << '.' << endl;
-							}
-							break;
 						}
 					}
+					else cout << "An item has to be used \"on\" something else, not \""
+						<< input[2] << "\" something." << endl;
 				}
-				else cout << "An item has to be used \"on\" something else, not \""
-					<< input[2] << "\" something." << endl;
+				else cout << "You have no " << input[1] << " in your backpack to use." << endl;
 			}
-			else cout << "You have no " << input[1] << " in your backpack to use." << endl;
+			break;
 		}
-		break;
 	}
+	else cout << "You can't use items while being attacked. If you want to attack using \
+a weapon from your inventory use the \"attack\" command." << endl;
 }
 
 void Player::Go(const vector<string>& input)
@@ -369,6 +383,112 @@ void Player::Go(const vector<string>& input)
 		}
 	}
 	if (!match) cout << "There's a wall here." << endl;
+}
+
+void Player::Update() {
+	NULL;
+}
+
+void Player::Attack()
+{
+	Creature::Attack();
+}
+
+void Player::Attack(vector<string>& input)
+{
+	bool match = false;
+
+	switch (input.size())
+	{
+	case 1: // Attacking the enemy targeted, if any
+		if (this->target != NULL) this->Attack();
+		else cout << "You don't have any enemy targeted." << endl;
+		break;
+
+	case 2: // Target and attack the indicated enemy
+		for (list<Entity*>::iterator it = this->parent->contains.begin();
+			it != this->parent->contains.end(); it++)
+		{
+			if ((*it)->name == input[1])
+			{
+				match = true;
+
+				if ((*it)->type == Type::CREATURE)
+				{
+					this->target = (Creature*)(*it);
+					this->Attack();
+				}
+				else cout << "You can only attack creatures, and " << input[1]
+					<< " is not a creature." << endl;
+
+				break;
+			}
+		}
+		if (!match) cout << "I can't find " << input[1] << '.' << endl;
+		break;
+
+	case 4: // Target and attack indicated enemy with gun
+		for (list<Entity*>::iterator it = this->parent->contains.begin();
+			it != this->parent->contains.end(); it++)
+		{
+			if ((*it)->name == input[1])
+			{
+				match = true;
+
+				if ((*it)->type == Type::CREATURE)
+				{
+					this->target = (Creature*)(*it);
+
+					if (input[2] == "with")
+					{
+						if (BackpackEquipped()) // Just in case
+						{
+							Item* item = GetItemFromBackpack(input[3]);
+
+							if (item != NULL && item->itemType == ItemType::WEAPON)
+							{
+								this->AttackWithWeapon((Weapon*)item);
+							}
+							else cout << "You don't have a " << input[3] << '.' << endl;
+						}
+					}
+					else cout << "You must attack someone \"with\" a weapon not \""
+						<< input[2] << "\"." << endl;
+				}
+				else cout << "You can only attack creatures, and " << input[1] 
+					<< " is not a creature." << endl;
+			}
+		}
+		if (!match) cout << "I can't find " << input[1] << '.' << endl;
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Player::AttackWithWeapon(Weapon* weapon)
+{
+	TextColor(YELLOW);
+	if (!this->target->Dead() && SameRoom(this->target))
+	{
+		string name = this->name;
+		name[0] = toupper(name[0]);
+
+		int totalDamage = this->baseDamage + weapon->damagePoints;
+
+		cout << "0=={==========- " << name << " attacks " << this->target->name
+			<< " with a " << weapon->name << " and deals " << totalDamage 
+			<< " point/s of damage." << endl;
+
+		this->target->Attacked(totalDamage);
+	}
+	TextColor(GREEN);
+}
+
+void Player::Attacked(const int& damage)
+{
+	Creature::Attacked(damage);
 }
 
 void Player::Inventory() const

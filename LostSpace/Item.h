@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-enum class ItemType {ITEM, RECORDER, COMPUTER};
+enum class ItemType {ITEM, RECORDER, COMPUTER, WEAPON};
 
 class Item : public Entity
 {
@@ -30,7 +30,6 @@ public:
 	virtual void Look() const;
 	virtual void Open() const;
 
-	void Attack();
 	bool IsAContainer() const;
 	bool IsEmpty() const;
 	bool IsGrabable() const;

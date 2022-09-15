@@ -48,6 +48,9 @@
     <ClCompile Include="Computer.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Useful.h">
@@ -78,6 +81,9 @@
       <Filter>Archivos de origen</Filter>
     </ClInclude>
     <ClInclude Include="Recorder.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
   </ItemGroup>

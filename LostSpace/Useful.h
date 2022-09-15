@@ -8,7 +8,7 @@
 #include <vector>
 using namespace std;
 
-enum Color {WHITE=7, GREEN=2, BLUE=3, RED=4, BRIGHT_GREEN=10};
+enum Color {WHITE=7, GREEN=2, BLUE=3, RED=4, YELLOW=6, BRIGHT_GREEN=10};
 enum class Direction { NORTH, SOUTH, EAST, WEST, UP, DOWN };
 
 

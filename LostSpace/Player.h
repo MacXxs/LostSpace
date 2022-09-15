@@ -6,12 +6,22 @@
 #include <vector>
 
 class Item;
+class Weapon;
 
 class Player : public Creature
 {
 
 public:
-	Player(const string& name, const string& description, Room* location, int health);
+	Player(
+		const string& name, 
+		const string& description, 
+		const string& ripDescription,
+		Room* location, 
+		const int& health = 100,
+		const int& baseDamage = 10,
+		const double& armor = 0,
+		Creature* target = NULL
+	);
 	~Player();
 
 	void Look(const vector<string>& input) const;
@@ -21,6 +31,11 @@ public:
 	void Drop(const vector<string>& input);
 	void Use(const vector<string>& input);
 	void Go(const vector<string>& input);
+	void Update();
+	void Attack();
+	void AttackWithWeapon(Weapon* weapon);
+	void Attack(vector<string>& input);
+	void Attacked(const int& damage);
 
 	void Inventory() const;
 	bool BackpackEquipped() const;
