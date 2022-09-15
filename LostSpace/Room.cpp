@@ -20,7 +20,7 @@ Room::~Room(){}
 void Room::Look() const
 {
 	TextColor(BRIGHT_GREEN);
-	cout << "---- " << this->name << " ----" << endl;
+	cout << "==== " << this->name << " ====" << endl;
 	TextColor(GREEN);
 
 	if (Illuminated()) cout << this->description << endl;

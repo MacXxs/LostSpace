@@ -27,14 +27,8 @@ void Recorder::Play() const
 {
 	cout << "You play the " << this->name << ':' << endl;
 	string recording = this->recording;
+
 	TextColor(RED);
-
-	for (char& c : recording)
-	{
-		printf("%c", c);
-		Sleep(35);
-	}
-	cout << '\n';
-
+	TypewriterOuptut(recording);
 	TextColor(GREEN);
 }

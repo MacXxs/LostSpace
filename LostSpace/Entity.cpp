@@ -12,6 +12,8 @@ Entity::Entity(const string& name, const string& description, Entity* parent = N
 
 Entity::~Entity(){}
 
+void Entity::Update() {}
+
 void Entity::Look() const
 {
 	cout << this->description << endl;

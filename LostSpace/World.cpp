@@ -127,7 +127,7 @@ close propertly, what could have done this?",
 	entities.push_back(sealedDoor);
 
 	/* ------------------- PLAYER ------------------- */
-	this->player = new Player("Isaac Cramp", "The amnesic hero of this game.", quarters, 10);
+	this->player = new Player("Isaac Cramp", "The amnesic hero of this game.", flightDeck, 10);
 
 	entities.push_back(player);
 
@@ -231,7 +231,24 @@ lockdown, only chief engineer Jhon Reynolds has clearance.",
 	);
 	sealedDoor->key = securityTerminal;
 
+	Computer* onboardComputer = new Computer(
+		"onboard_computer",
+		"The onboard_computer used to trace the ship routes. I could use it to trace a route \
+to the closest star and kill this thing for sure.",
+		flightDeck,
+		false,
+		0,
+		false,
+		false,
+		"Tracing route to closest star... Brace for imminent death.",
+		"",
+		"",
+		"Error, please try to use me directly."
+);
+	onboardComputer->ending = true;
+
 	entities.push_back(securityTerminal);
+	entities.push_back(onboardComputer);
 }
 
 World::~World() {}
@@ -244,7 +261,18 @@ bool World::ValidCommand(vector<string>& input)
 	{
 		valid = Action(input);
 	}
+	
+	UpdateWorld();
+
 	return valid;
+}
+
+void World::UpdateWorld()
+{
+	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
+	{
+		(*it)->Update();
+	}
 }
 
 bool World::Action(vector<string>& input)
@@ -252,63 +280,67 @@ bool World::Action(vector<string>& input)
 	bool valid = true;
 	string command = input[0];
 
-	switch (input.size())
-	{
-	case 1:
-		if (command == "look")
+	if (!this->player->Dead()) {
+		switch (input.size())
 		{
-			this->player->Look(input);
-		}
-		else if (command == "inventory")
-		{
-			this->player->Inventory();
-		}
-		else if (command == "north" || command == "south" || command == "east" ||
-			command == "west" || command == "up" || command == "down") 
-		{
-			this->player->Go(input);
-		}
-		else valid = false;
-		break;
+		case 1:
+			if (command == "look")
+			{
+				this->player->Look(input);
+			}
+			else if (command == "inventory")
+			{
+				this->player->Inventory();
+			}
+			else if (command == "north" || command == "south" || command == "east" ||
+				command == "west" || command == "up" || command == "down")
+			{
+				this->player->Go(input);
+			}
+			else valid = false;
+			break;
 
-	case 2:
-		if (command == "look")
-		{
-			this->player->Look(input);
-		}
-		else if (command == "open")
-		{
-			this->player->Open(input);
-		}
-		else if (command == "grab")
-		{
-			this->player->Grab(input);
-		}
-		else if (command == "drop")
-		{
-			this->player->Drop(input);
-		}
-		else if (command == "use")
-		{
-			this->player->Use(input);
-		}
-		else valid = false;
-		break;
+		case 2:
+			if (command == "look")
+			{
+				this->player->Look(input);
+			}
+			else if (command == "open")
+			{
+				this->player->Open(input);
+			}
+			else if (command == "grab")
+			{
+				this->player->Grab(input);
+			}
+			else if (command == "drop")
+			{
+				this->player->Drop(input);
+			}
+			else if (command == "use")
+			{
+				this->player->Use(input);
+			}
+			else valid = false;
+			break;
 
-	case 4:
-		if (command == "place")
-		{
-			this->player->Place(input);
+		case 4:
+			if (command == "place")
+			{
+				this->player->Place(input);
+			}
+			else if (command == "use")
+			{
+				this->player->Use(input);
+			}
+			else valid = false;
+			break;
+		default:
+			valid = false;
+			break;
 		}
-		else if (command == "use")
-		{
-			this->player->Use(input);
-		}
-		else valid = false;
-		break;
-	default:
-		valid = false;
-		break;
 	}
+	else cout << "You are dead, the only thing you can do is \"quit\"." << endl;
+
 	return valid;
 }

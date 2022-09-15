@@ -6,6 +6,8 @@
 class Recorder : public Item
 {
 public:
+	string recording;
+
 	Recorder
 	(
 		const string& name,

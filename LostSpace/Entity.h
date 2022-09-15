@@ -22,6 +22,7 @@ public:
 	Entity(const string& name, const string& description, Entity* parent);
 	virtual ~Entity();
 
+	virtual void Update();
 	virtual void Look() const;
 	virtual void Open() const;
 };

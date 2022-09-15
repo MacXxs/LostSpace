@@ -25,7 +25,7 @@ void Creature::Look() const
 
 bool Creature::Dead() const
 {
-	return health > 0;
+	return health <= 0;
 }
 
 Room* Creature::Location() const

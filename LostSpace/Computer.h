@@ -16,6 +16,7 @@ public:
 	bool done;
 	Item* key;
 	Exit* exit;
+	bool ending;
 
 	Computer
 	(
@@ -32,13 +33,15 @@ public:
 		const string& error = "",
 		const bool& done = false,
 		Item* key = NULL,
-		Exit* exit = NULL
+		Exit* exit = NULL,
+		const bool& ending = false
 	);
 	~Computer();
 
 	void Look() const;
-	void Use() const;
+	void Use();
 	void Use(const Item* key);
+	void Update();
 };
 
 #endif // !COMPUTER_H

@@ -14,7 +14,6 @@ public:
 	bool grabable;
 	bool lightSource;
 	int spaces;
-	string recording;
 
 	Item
 	(
@@ -31,6 +30,7 @@ public:
 	virtual void Look() const;
 	virtual void Open() const;
 
+	void Attack();
 	bool IsAContainer() const;
 	bool IsEmpty() const;
 	bool IsGrabable() const;

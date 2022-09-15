@@ -231,6 +231,9 @@ void Player::Use(const vector<string>& input)
 				else if (item->itemType == ItemType::COMPUTER)
 				{
 					Computer* computer = (Computer*)(item);
+
+					// You've reached the ending, and with it your death
+					if (computer->ending) this->health = 0; 
 					computer->Use();
 				}
 				else cout << "You can't use the " << input[1] << endl;

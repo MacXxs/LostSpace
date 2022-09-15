@@ -76,3 +76,13 @@ string GetDirection(const Direction& direction)
 
 	return dir;
 }
+
+void TypewriterOuptut(string& text)
+{
+	for (char& c : text)
+	{
+		printf("%c", c);
+		Sleep(35);
+	}
+	cout << '\n';
+}

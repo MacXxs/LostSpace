@@ -18,5 +18,6 @@ void TextNormal();
 string InputToLower(string& text);
 vector<string> TreatInput(string& input);
 string GetDirection(const Direction& direction);
+void TypewriterOuptut(string& text);
 
 #endif // !USEFUL_H
