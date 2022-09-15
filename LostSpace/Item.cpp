@@ -7,7 +7,7 @@ Item::Item
 	const string& description,
 	Entity* location,
 	const bool& container,
-	const unsigned int& spaces,
+	const int& spaces,
 	const bool& grabable,
 	bool lightSource) :
 	Entity(name, description, location)

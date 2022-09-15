@@ -13,10 +13,16 @@ public:
 		Entity* location,
 		const bool& container = false,
 		const bool& grabable = true,
-		const unsigned int& spaces = 0,
-		bool lightSource = false
-	);			  
+		const int& spaces = 0,
+		const string& onText = "",
+		const string& offText = "",
+		const string& validation = "",
+		const string& error = ""
+	);
 	~Computer();
+
+	void Look() const;
+	void Use() const;
 };
 
 #endif // !COMPUTER_H

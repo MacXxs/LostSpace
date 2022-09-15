@@ -148,6 +148,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Recorder.cpp" />
+    <ClCompile Include="Computer.cpp" />
     <ClCompile Include="Useful.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>

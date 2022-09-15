@@ -12,7 +12,7 @@ public:
 		const string& description,
 		Entity* location,
 		const bool& container = false,
-		const unsigned int& spaces = 0,
+		const int& spaces = 0,
 		const bool& grabable = true,
 		const string& recording = ""
 	);

@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "Exit.h"
 #include "Recorder.h"
+#include "Computer.h"
 
 Player::Player(const string& name, const string& description, Room* location, int health) :
 	Creature(name, description, location, health) 
@@ -162,12 +163,12 @@ void Player::Place(const vector<string>& input)
 									cout << "You've put the " << input[1] << " in the "
 										<< input[3] << endl;
 								}
-								else 
+								else
 								{
 									cout << "There's no room for more items in the "
 										<< container->name << endl;
 								}
-								
+
 							}
 							else cout << "The destination item must be a container." << endl;
 						}
@@ -176,9 +177,10 @@ void Player::Place(const vector<string>& input)
 				}
 				if (!match) cout << "I can't find any " << input[3] << endl;
 			}
-			else cout << "An item has to be placed \"in\" a container, not \"" 
+			else cout << "An item has to be placed \"in\" a container, not \""
 				<< input[2] << "\" a container." << endl;
 		}
+		else cout << "You have no " << input[1] << " in your backpack to place anywhere." << endl;
 	}
 }
 
@@ -199,39 +201,81 @@ void Player::Drop(const vector<string>& input)
 
 			cout << "Item dropped on the ground." << endl;
 		}
+		else cout << "You have no " << input[1] << " in your backpack to drop anywhere." << endl;
 	}
 }
 
 void Player::Use(const vector<string>& input)
 {
-	if (BackpackEquipped())
-	{
-		Item* item = GetItemFromBackpack(input[1]); // Item to be used
+	
+	Room* room = this->Location();
+	Item* item;
+	bool match = false;
 
-		if (item != NULL)
+	switch (input.size())
+	{ 
+	case 2: // Use item from backpack or item in the room
+
+		for (list<Entity*>::iterator it = room->contains.begin();
+			it != room->contains.end(); it++)
 		{
-			Room* room = this->Location();
-			bool match = false;
-
-			switch (input.size())
-			{ 
-			case 2: // Use item
+			if ((*it)->name == input[1]) // Use room item
+			{
+				item = (Item*)(*it);
+				match = true;
 				if (item->itemType == ItemType::RECORDER)
 				{
 					Recorder* recording = (Recorder*)(item);
 					recording->Play();
 				}
-				else if (item->IsALightSource())
+				else if (item->itemType == ItemType::COMPUTER)
 				{
-					if (!room->Illuminated()) {
-						room->lighten = true;
-						cout << "You use the " << input[1] << " to illuminate the room." << endl;
-						room->Look();
-					}
-					else cout << "The room has sufficient light to see." << endl;
+					Computer* computer = (Computer*)(item);
+					computer->Use();
 				}
-				break;
-			case 4: // Use item on something
+				else cout << "You can't use the " << input[1] << endl;
+			}
+		}
+		if (!match)
+		{
+			if (BackpackEquipped())
+			{
+				Item* item = GetItemFromBackpack(input[1]);
+
+				if (item != NULL) // Use backpack item
+				{
+					match = true;
+					if (item->itemType == ItemType::RECORDER)
+					{
+						Recorder* recording = (Recorder*)(item);
+						recording->Play();
+					}
+					else if (item->IsALightSource())
+					{
+						if (!room->Illuminated()) {
+							room->lighten = true;
+							cout << "You use the " << input[1] 
+								<< " to illuminate the room." << endl;
+							room->Look();
+						}
+						else cout << "The room has sufficient light to see." << endl;
+					}
+					else cout << "You can't use the " << input[1] 
+						<< " or it need to be used \"on\" something." << endl;
+				}
+				else cout << "There is no " << input[1] 
+					<< " in your backpack or anywhere around to use." << endl;
+			}
+		}
+
+		break;
+	case 4: // Use item on something
+		if (BackpackEquipped())
+		{
+			item = GetItemFromBackpack(input[1]);
+
+			if (item != NULL) // Use backpack item
+			{
 				if (input[2] == "on")
 				{
 					for (list<Entity*>::iterator it = room->contains.begin();
@@ -256,10 +300,10 @@ void Player::Use(const vector<string>& input)
 				}
 				else cout << "An item has to be used \"on\" something else, not \""
 					<< input[2] << "\" something." << endl;
-
-				break;
 			}
+			else cout << "You have no " << input[1] << " in your backpack to use." << endl;
 		}
+		break;
 	}
 }
 
@@ -362,7 +406,6 @@ Item* Player::GetItemFromBackpack(const string& name)
 {
 	Item* item = NULL;
 	Item* backpack = (Item*)this->contains.front();
-	bool match = false;
 
 	for (list<Entity*>::iterator it = backpack->contains.begin();
 		it != backpack->contains.end(); it++)
@@ -370,10 +413,7 @@ Item* Player::GetItemFromBackpack(const string& name)
 		if ((*it)->name == name)
 		{
 			item = (Item*)(*it);
-			match = true;
 		}
 	}
-
-	if (!match) cout << "You have no " << name << " in your backpack." << endl;
 	return item;
 }

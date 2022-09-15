@@ -7,16 +7,16 @@ Recorder::Recorder
 	const string& description,
 	Entity* location,
 	const bool& container,
-	const unsigned int& spaces,
+	const int& spaces,
 	const bool& grabable,
 	const string& recording
 ) : Item(name, description, location, container, spaces, grabable)
 {
 	this->itemType = ItemType::RECORDER;
 	this->recording = recording;
-};
+}
 
-Recorder::~Recorder() {};
+Recorder::~Recorder() {}
 
 void Recorder::Look() const
 {
@@ -25,7 +25,7 @@ void Recorder::Look() const
 
 void Recorder::Play() const
 {
-	cout << "You play the recording:" << endl;
+	cout << "You play the " << this->name << ':' << endl;
 	string recording = this->recording;
 	TextColor(RED);
 
