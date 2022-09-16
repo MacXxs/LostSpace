@@ -341,6 +341,10 @@ bool World::Action(vector<string>& input)
 			{
 				this->player->Attack(input);
 			}
+			else if (command == "help")
+			{
+				Help();
+			}
 			else valid = false;
 			break;
 
@@ -399,4 +403,39 @@ bool World::Action(vector<string>& input)
 	else cout << "You are dead, the only thing you can do is \"quit\"." << endl;
 
 	return valid;
+}
+
+void World::Help()
+{
+	TextColor(WHITE);
+	cout << "Commands:" << endl;
+	cout << "- The \"LOOK\" command prints a description of your surroundings. You can use \
+the \"LOOK command followed by the name of an entity in the room to get a description of that \
+entity alone.\nUsage: > Look | > Look \"entity_name\"" << endl;
+	cout << "- The \"INVENTORY\" command prints a description of the items in your inventory.\
+\nUsage: > INVENTORY" << endl;
+	cout << "- The \"OPEN\" commmand prints a descriptions of the items contained inside a container.\n\
+Usage: > OPEN \"container_name\"" << endl;
+	cout << "- The \"GRAB\" commmand allows you to grab items and store them in you inventory.\n\
+Usage: > GRAB \"item_name\"" << endl;
+	cout << "- The \"DROP\" command allows you to drop items from your backpack on the room you're \
+in.\nUsage: > DROP \"item_name\"" << endl;
+	cout << "- The \"USE\" command allows you to use items from your backpack or your surroudings. \
+Only recordings and terminals can be used without having them in your inventory.\
+\nUsage: > USE \"item_name\" | > USE \"item_name\" ON \"entity_name\"" << endl;
+	cout << "- The \"PLACE\" command allows you to place an item from your inventory inside a \
+container.\nUsage: > PLACE \"item_name\" IN \"container_name\"" << endl;
+	cout << "- The \"CONSUME\" command allows you to drink or eat a consumable item.\
+\nUsage: > CONSUME \"consumable_name\"" << endl;
+	cout << "- The \"ATTACK\" command allows you attack with your fists an auto-targeted enemy, \
+attack an enemy in particular whith your fists or attack an enemy in particular using a weapon \
+from your inventory.\nUsage: > ATTACK | > ATTACK \"enemy_name\" | ATTACK \"enemy_name\" \
+WITH \"weapon_name\"" << endl;
+	cout << "\nMOVEMENT:\n- To walk in a direction just type the direction you wanna move: \
+> NORTH | > SOUTH | > EAST | > WEST | > UP | > DOWN" << endl;
+	cout << "\nIMPORTANT INFORMATION:" << endl;
+	cout << "- Items must be referred by their full name, if an item is labeled \"penaut_butter\" \
+and you want to get a closer look at it, you must type: > LOOK PENAUT_BUTTER" << endl;
+	cout << "- It doesn't matter if you use lower or upper cases while typing." << endl;
+	TextColor(GREEN);
 }

@@ -17,6 +17,7 @@ public:
 	bool ValidCommand(vector<string>& input);
 	void UpdateWorld();
 	bool Action(vector<string>& input);
+	void Help();
 
 private:
 	vector<Entity*> entities;

@@ -20,6 +20,10 @@ int main()
 habitable planet. \nDuring cryosleep something happens, our hero wakes up alone in the crew quarters \
 after 100 years of slumber.\n" << endl;
 
+    TextColor(WHITE);
+    cout << "Type \"HELP\" for an oberview of the commands.\n" << endl;
+    TextColor(GREEN);
+
     World ishimura;
    
     string input = "look";
