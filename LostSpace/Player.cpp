@@ -70,7 +70,8 @@ void Player::Open(const vector<string>& input) const
 		bool match = false;
 		Room* room = Location();
 
-		for (list<Entity*>::const_iterator it = room->contains.begin(); it != room->contains.end(); ++it)
+		for (list<Entity*>::const_iterator it = room->contains.begin(); 
+			it != room->contains.end(); ++it)
 		{
 			if ((*it)->type == Type::ITEM)
 			{
@@ -79,8 +80,14 @@ void Player::Open(const vector<string>& input) const
 					Item* item = (Item*)(*it);
 					match = true;
 
-					if (!item->IsEmpty()) (*it)->Open();
-					else cout << "It's empty" << endl;
+					if (item->IsAContainer())
+					{
+						if (!item->IsEmpty()) (*it)->Open();
+						else cout << "It's empty" << endl;
+					}
+					else cout << FirstLetterUpper(input[1]) << " isn't a container." << endl;
+
+					break;
 				}
 			}
 		}
@@ -117,7 +124,15 @@ void Player::Grab(const vector<string>& input)
 
 							cout << "You can now grab items and store them in your backpack!" << endl;
 						}
-						else if (BackpackEquipped()) AddItemToBackpack(item);
+						else if (BackpackEquipped())
+						{
+							if (item->itemType == ItemType::CONSUMABLE)
+							{
+								if (!((Consumable*)item)->used) AddItemToBackpack(item);
+								else cout << "You can't grab a consumable already consumed" << endl;
+							}
+							else AddItemToBackpack(item);
+						}
 					}
 					break;
 				}
@@ -425,8 +440,9 @@ void Player::Go(const vector<string>& input)
 	else cout << "You can't leave while being in combat" << endl;
 }
 
-void Player::Update() {
-	NULL;
+void Player::Update() 
+{
+	if (this->target != NULL && this->target->Dead()) this->target = NULL;
 }
 
 void Player::Attack()
@@ -543,7 +559,12 @@ void Player::Inventory() const
 			it != backpack->contains.end(); it++)
 		{
 			cout << "\t- ";
-			(*it)->Look();
+			// If an item is a consumable i want to know the stats it provides
+			if (((Item*)(*it))->itemType == ItemType::CONSUMABLE) 
+			{
+				((Consumable*)(*it))->Look();
+			}
+			else (*it)->Look();
 		}
 	}
 }

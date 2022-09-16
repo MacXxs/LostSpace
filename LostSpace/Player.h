@@ -17,7 +17,7 @@ public:
 		const string& description, 
 		const string& ripDescription,
 		Room* location, 
-		const int& health = 100,
+		const int& health = MAX_HEALTH,
 		const int& baseDamage = 10,
 		const double& armor = 0,
 		Creature* target = NULL

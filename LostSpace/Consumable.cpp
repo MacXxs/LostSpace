@@ -72,8 +72,10 @@ void Consumable::Consume(Player* player)
 	if (this->healthRegen > 0)
 	{
 		player->health += this->healthRegen;
-
-		if (player->health > MAX_HEALTH) player->health = MAX_HEALTH;
+		if (player->health > MAX_HEALTH)
+		{
+			player->health = MAX_HEALTH;
+		}
 
 		cout << " and a total of " << this->healthRegen
 			<< " health points have been healed." << endl;

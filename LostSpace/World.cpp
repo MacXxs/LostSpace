@@ -44,7 +44,7 @@ the bridge.\nAn id card drenched in blood can be seen on the floor, it belonged 
 \"relatively\" small black hole wrapped around by some kind of unbreakable glass. When you \
 look at the black hole, the light of the flashlight curves around the glass disappearing inside the \
 hole, leaving a circle of the darkest black you've ever seen. It's beautiful and \
-terryfying at the same time.\n The room has no glass walls or windows, it's completely envolved \
+terryfying at the same time.\nThe room has no glass walls or windows, it's completely envolved \
 by what seem to be the thickest walls on the ship.\nOn the far east corner of the room, there \
 is a security_terminal.",
 		false,
@@ -139,8 +139,6 @@ close propertly, what could have done this?",
 		10,
 		0);
 
-	entities.push_back(player);
-
 	/* ------------------- ENEMY ------------------- */
 	Creature* alien = new Creature(
 		"alien", 
@@ -152,7 +150,7 @@ by looking at its blank and death stare that it's going to attack at any moment.
 it out.", 
 		flightDeck, 
 		100,
-		40,
+		30,
 		0,
 		NULL);
 
@@ -216,7 +214,7 @@ it out.",
 		"I can still feel the kick of drinking it, I could run a marathon right now.",
 		hall,
 		0,
-		0.2,
+		0.4,
 		10
 	);
 
@@ -289,6 +287,9 @@ to the closest star and kill this thing for sure.",
 
 	entities.push_back(securityTerminal);
 	entities.push_back(onboardComputer);
+
+	// I add the player as the last element of the world so its update function is run the latest
+	entities.push_back(player); 
 }
 
 World::~World() {}
