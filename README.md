@@ -2,8 +2,15 @@
 Small conversational game in the style of Zork made by [Miquel Prieto Moliné](https://github.com/MacXxs) </br>
 You can check the repo [here](https://github.com/MacXxs/LostSpace) </br>
 
+## Table of Contents 
+- [Game Commands](https://github.com/MacXxs/LostSpace/edit/master/README.md#game-commands)               
+</t> 1. [Interaction Commands](https://github.com/MacXxs/LostSpace/edit/master/README.md#interaction-commands)  
+</t> 2. [Movement Commands](https://github.com/MacXxs/LostSpace/edit/master/README.md#movement-commands) </br>
+</t> 3. [Important Information](https://github.com/MacXxs/LostSpace/edit/master/README.md#important-information) 
+- [Quick Guide](https://github.com/MacXxs/LostSpace/edit/master/README.md#quick-guide)
+
 ## Game Commands
-### Interaction commands
+### Interaction Commands
 - The **LOOK** command prints a description of your surroundings. You can use the **LOOK** command followed by the name of an entity in the room to get a description of that entity alone. </br> Usage: </br>  ```> LOOK``` </br> ```> LOOK entity_name```
 - The **INVENTORY** command prints a description of the items in your inventory. </br> Usage: </br> ```> INVENTORY```
 - The **OPEN** commmand prints a descriptions of the items contained inside a container. </br> Usage: </br> ```> OPEN container_name```
