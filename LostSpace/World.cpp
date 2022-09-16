@@ -14,7 +14,7 @@ World::World()
 	/* ------------------- ROOMS ------------------- */
 	Room* quarters = new Room(
 		"Quarters", 
-		"You are in the crew quarters. There are another 5 cryo pots, all of them empty.\n\
+		"You are in the crew quarters. There are another 5 cryo pods, all of them empty.\n\
 On the east side of the quarters you can see a window showing the emptiness of space, with \
 little shinning stars in the distance."
 	);
