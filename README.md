@@ -1,4 +1,5 @@
-# LostSpace
+# LostSpace  :space_invader:
+
 Small conversational game in the style of Zork made by [Miquel Prieto Moliné](https://github.com/MacXxs) </br>
 You can check the repo [here](https://github.com/MacXxs/LostSpace) </br>
 
