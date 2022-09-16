@@ -25,7 +25,7 @@ void Recorder::Look() const
 
 void Recorder::Play() const
 {
-	cout << "You play the " << this->name << ':' << endl;
+	cout << "You play the " << this->name << ":\n" << endl;
 	string recording = this->recording;
 
 	TextColor(RED);

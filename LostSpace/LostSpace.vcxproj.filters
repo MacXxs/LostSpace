@@ -51,6 +51,9 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="Consumable.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Useful.h">
@@ -84,6 +87,9 @@
       <Filter>Archivos de origen</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="Consumable.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
   </ItemGroup>

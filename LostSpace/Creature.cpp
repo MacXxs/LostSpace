@@ -38,7 +38,6 @@ void Creature::Look() const
 
 void Creature::Update() 
 {
-	cout << '\n';
 	if (!Dead()) 
 	{
 		if (this->target != NULL)
@@ -54,6 +53,8 @@ void Creature::Update()
 
 void Creature::Attack() 
 {
+	cout << '\n';
+
 	TextColor(YELLOW);
 	if (!this->target->Dead() && SameRoom(this->target))
 	{

@@ -86,3 +86,11 @@ void TypewriterOuptut(string& text)
 	}
 	cout << '\n';
 }
+
+string FirstLetterUpper(const string& text)
+{
+	string upperFirst = text;
+	upperFirst[0] = toupper(upperFirst[0]);
+
+	return upperFirst;
+}

@@ -31,6 +31,7 @@ public:
 	void Drop(const vector<string>& input);
 	void Use(const vector<string>& input);
 	void Go(const vector<string>& input);
+	void Consume(const vector<string>& input);
 	void Update();
 	void Attack();
 	void AttackWithWeapon(Weapon* weapon);

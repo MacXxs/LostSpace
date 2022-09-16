@@ -1,5 +1,6 @@
 #include "Room.h"
 #include "Exit.h"
+#include "Consumable.h"
 
 Room::Room(
 	const string& name, 
@@ -31,7 +32,13 @@ void Room::Look() const
 	{
 		if ((*it)->type == Type::ITEM && Illuminated())
 		{
-			cout << "There is an item in this room: " << (*it)->description << endl;
+			cout << "There is an item in this room: ";
+			if (((Item*)(*it))->itemType == ItemType::CONSUMABLE)
+			{
+
+				((Consumable*)(*it))->Look();
+			}
+			else (*it)->Look();
 		}
 		else if ((*it)->type == Type::EXIT)
 		{

@@ -5,6 +5,7 @@
 #include "Recorder.h"
 #include "Computer.h"
 #include "Weapon.h"
+#include "Consumable.h"
 
 Player::Player(
 	const string& name, 
@@ -44,6 +45,14 @@ void Player::Look(const vector<string>& input) const
 				{
 					Exit* exit = (Exit*)(*it);
 					exit->Look(room);
+				}
+				else if ((*it)->type == Type::ITEM) // Look at an item
+				{
+					if (((Item*)(*it))->itemType == ItemType::CONSUMABLE)
+					{
+						((Consumable*)(*it))->Look();
+					}
+					else (*it)->Look();
 				}
 				else (*it)->Look();
 				break;
@@ -247,6 +256,11 @@ void Player::Use(const vector<string>& input)
 						if (computer->ending) this->health = 0;
 						computer->Use();
 					}
+					else if (item->itemType == ItemType::CONSUMABLE)
+					{
+						cout << "To consume food use the \"consume\" command "
+							<< "(first you need to grab the consumable).";
+					}
 					else cout << "You can't use the " << input[1] << endl;
 				}
 			}
@@ -275,10 +289,10 @@ void Player::Use(const vector<string>& input)
 							else cout << "The room has sufficient light to see." << endl;
 						}
 						else cout << "You can't use the " << input[1]
-							<< " or it need to be used \"on\" something." << endl;
+							<< " or it needs to be used \"on\" something." << endl;
 					}
 					else cout << "There is no " << input[1]
-						<< " in your backpack or anywhere around to use." << endl;
+						<< " in your backpack to use." << endl;
 				}
 			}
 
@@ -338,51 +352,77 @@ void Player::Use(const vector<string>& input)
 a weapon from your inventory use the \"attack\" command." << endl;
 }
 
+void Player::Consume(const vector<string>& input)
+{
+	if (BackpackEquipped())
+	{
+		Item* item = GetItemFromBackpack(input[1]);
+		if (item != NULL)
+		{
+			if (item->itemType == ItemType::CONSUMABLE)
+			{
+				((Consumable*)item)->Consume(this);
+			}
+			else cout << FirstLetterUpper(input[1]) << " must be a consumable" << endl;
+		}
+		else cout << "You don't have any " << input[1] << " in your backpack." << endl;
+	}
+}
+
 void Player::Go(const vector<string>& input)
 {
-	Room* room = this->Location();
-	bool match = false;
-
-	for (list<Entity*>::iterator it = room->contains.begin();
-		it != room->contains.end(); it++)
+	if (this->target == NULL) // Player isn't in combat
 	{
-		if ((*it)->type == Type::EXIT) // Go through an exit
+		Room* room = this->Location();
+		bool match = false;
+
+		for (list<Entity*>::iterator it = room->contains.begin();
+			it != room->contains.end(); it++)
 		{
-			Exit* exit = (Exit*)(*it);
-			
-			if (input[0] == exit->DoorDirection(room))
+			if ((*it)->type == Type::EXIT) // Go through an exit
 			{
-				match = true;
+				Exit* exit = (Exit*)(*it);
 
-				if (!exit->Locked())
+				if (input[0] == exit->DoorDirection(room))
 				{
-					if (room == exit->source)
+					match = true;
+
+					if (!exit->Locked())
 					{
-						Room* destination = exit->destination;
+						if (room == exit->source)
+						{
+							Room* destination = exit->destination;
 
-						room->contains.remove(this);
-						destination->contains.push_back(this);
+							room->contains.remove(this);
+							destination->contains.push_back(this);
 
-						this->parent = destination;
+							this->parent = destination;
 
+						}
+						else {
+							Room* source = exit->source;
+
+							room->contains.remove(this);
+							source->contains.push_back(this);
+
+							this->parent = source;
+						}
+						room->lighten = room->lightState; // Room lighting
+
+						this->parent->Look();
 					}
-					else {
-						Room* source = exit->source;
-
-						room->contains.remove(this);
-						source->contains.push_back(this);
-
-						this->parent = source;
-					}
-					room->lighten = room->lightState; // Room lighting
-
-					this->parent->Look();
+					else cout << "The " << exit->name << " is locked." << endl;
 				}
-				else cout << "The " << exit->name << " is locked." << endl;
 			}
 		}
+		if (!match)
+		{
+			if (input[0] == "up") cout << "There's the ceiling here." << endl;
+			else if (input[0] == "down") cout << "There's just floor here." << endl;
+			else cout << "There's a wall here." << endl;
+		}
 	}
-	if (!match) cout << "There's a wall here." << endl;
+	else cout << "You can't leave while being in combat" << endl;
 }
 
 void Player::Update() {

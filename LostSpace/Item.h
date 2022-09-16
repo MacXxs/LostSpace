@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-enum class ItemType {ITEM, RECORDER, COMPUTER, WEAPON};
+enum class ItemType {ITEM, RECORDER, COMPUTER, WEAPON, CONSUMABLE};
 
 class Item : public Entity
 {

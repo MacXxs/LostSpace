@@ -30,7 +30,7 @@ void Exit::Look(const Room* room) const
 	{
 		if (DoorDirection(room) == "up")
 		{
-			cout << "On the cieling there's an opened " << this->name << ". "
+			cout << "On the ceiling there's an opened " << this->name << ". "
 				<< this->openDesc << endl;
 		}
 		else if (DoorDirection(room) == "down")

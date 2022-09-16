@@ -7,6 +7,7 @@
 #include "Recorder.h"
 #include "Computer.h"
 #include "Weapon.h"
+#include "Consumable.h"
 
 World::World()
 {
@@ -32,22 +33,23 @@ equipment."
 	Room* bridge = new Room(
 		"Glass bridge",
 		"You are in the glass bridge, the transparent corridor that connects the Main hall of the ship with the Flight Deck.\n\
-Just taking a quick look you can see that the red light that could be seen from the main hall wasn't \
+Just by taking a quick look you can see that the red light that could be seen from the main hall wasn't \
 light produced naturally, it's blood..., the light coming from the blue dwarf that illuminates this \
 system is shining red by coming into contact with the blood splattered throughout the glass walls of \
 the bridge.\nAn id card drenched in blood can be seen on the floor, it belonged to chief engineer Reynolds."
 	);
 	Room* engineRoom = new Room(
 		"Engine Room",
-		"Once the player uses the lantern, the main source of energy for the vessel can be seen, a \
-\"relatively\" small black hole wrapped around by some type of unbreakable glass. When you \
-look at the black hole, the light of the flashlight curves around the glass disappearing inside it, \
-leaving a circle of the darkest black you've ever seen. It's beautiful and terryfying at the \
-same time.\n The room has no glass walls or windows, it's completely envolved by what seem to be the \
-thickest walls on the ship.\nOn a corner of the far east of the room, there is a computer.",
+		"Once you use the flashlight, the main source of energy for the vessel can be seen, a \
+\"relatively\" small black hole wrapped around by some kind of unbreakable glass. When you \
+look at the black hole, the light of the flashlight curves around the glass disappearing inside the \
+hole, leaving a circle of the darkest black you've ever seen. It's beautiful and \
+terryfying at the same time.\n The room has no glass walls or windows, it's completely envolved \
+by what seem to be the thickest walls on the ship.\nOn the far east corner of the room, there \
+is a security_terminal.",
 		false,
 		false,
-		"After going down the ladder for what it seemed half a minute you touch ground. \
+		"After going down the ladder for what seemed half a minute you touch ground. \
 It's pitch black inside and you can't see nothing, the rumblings and the pulling \
 forces of a strange and giant object moving on the center of the room can be heard and felt."
 	);
@@ -131,11 +133,11 @@ close propertly, what could have done this?",
 	this->player = new Player(
 		"Isaac Cramp", 
 		"The unfortunate hero of this game.",
-		"You are dead",
-		flightDeck, 
+		"You are beheaded by one of the alien's attacks and fall to the ground.",
+		quarters, 
 		100,
 		10,
-		0.2);
+		0);
 
 	entities.push_back(player);
 
@@ -144,7 +146,7 @@ close propertly, what could have done this?",
 		"alien", 
 		"A disfigured creature with a humanoid figure. It has long legs and arms, like a prying \
 mantis, and some sort of transparent membrane covers what used to be the sides of the abdomen until \
-it reaches the \"elbows\" of this aberration. The mouth has too many teeths to count, and you know \
+it reaches the \"elbows\" of this aberration. The mouth has too many teeth to count, and you know \
 by looking at its blank and death stare that it's going to attack at any moment.",
 		"It seems to be dead but i don't know for sure, I'm not getting any closer to find \
 it out.", 
@@ -160,7 +162,7 @@ it out.",
 	Item* backpack = new Item(
 		"backpack",
 		"A small backpack, it might have something inside.",
-		player, 
+		quarters, 
 		true, 
 		4,
 		true,
@@ -188,19 +190,9 @@ it out.",
 	);
 	quartersExit->key = key;
 
-	Item* spaghetti = new Item(
-		"spaghetti",
-		"A bag of non-expiring spaghetti bolognese.",
-		hall
-	);
-	Item* menstor = new Item(
-		"menstor",
-		"An energy drink labeled \"Menstor\", this was a banger on earth!",
-		hall
-	);
 	Item* severedHand = new Item(
 		"severed_hand",
-		"A very dead severed_hand.",
+		"A very dead severed_hand found next to chief engineer Reynolds's ID card.",
 		bridge
 	);
 
@@ -208,15 +200,34 @@ it out.",
 	entities.push_back(flashlight);
 	entities.push_back(lockers);
 	entities.push_back(key);
+	entities.push_back(severedHand);
+
+	/* ----------------- CONSUMABLES -------------------- */
+	Consumable* spaghetti = new Consumable(
+		"spaghetti",
+		"A bag of non-expiring spaghetti bolognese.",
+		"An empty bag of pasta, the result of three seconds of consuming pure happiness.",
+		hall,
+		50
+	);
+	Consumable* menstor = new Consumable(
+		"menstor",
+		"An energy drink labeled \"Menstor\", this was a banger on earth!",
+		"I can still feel the kick of drinking it, I could run a marathon right now.",
+		hall,
+		0,
+		0.2,
+		10
+	);
+
 	entities.push_back(spaghetti);
 	entities.push_back(menstor);
-	entities.push_back(severedHand);
 
 	/* ------------------- WEAPONS ---------------------- */
 	Weapon* plasmaCutter = new Weapon(
 		"plasma_cutter",
 		"A plasma_cutter used to slice through materials quickly, it could be used as a gun",
-		backpack,
+		comms,
 		15
 	);
 
@@ -251,9 +262,9 @@ take this thing back to earth.";
 		"Lockdown has been lifted. All systems running.",
 		"Emergency lockdown in process, please confirm your identity \
 through the handprint scanner in order to turn it off.",
-		"Permission granted chief engineer Reynolds, lockdown lifted.",
-		"Astronautical Engineer, Isaac Cramp. No permission to disable \
-lockdown, only chief engineer Jhon Reynolds has clearance.",
+		"Permission granted chief engineer Reynolds, lockdown lifted. \
+\nYou can hear that something just moved up on the bridge.",
+		"Invalid scan, only chief Reynolds's handprint allowed.",
 		false,
 		severedHand,
 		sealedDoor
@@ -357,6 +368,10 @@ bool World::Action(vector<string>& input)
 			else if (command == "attack")
 			{
 				this->player->Attack(input);
+			}
+			else if (command == "consume")
+			{
+				this->player->Consume(input);
 			}
 			else valid = false;
 			break;

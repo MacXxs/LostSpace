@@ -11,13 +11,17 @@ using namespace std;
 enum Color {WHITE=7, GREEN=2, BLUE=3, RED=4, YELLOW=6, BRIGHT_GREEN=10};
 enum class Direction { NORTH, SOUTH, EAST, WEST, UP, DOWN };
 
+const int MAX_HEALTH = 100;
+const int MAX_ARMOR = 100;
 
 void TextColor(const int& k);
 void TextBig();
 void TextNormal();
-string InputToLower(string& text);
-vector<string> TreatInput(string& input);
-string GetDirection(const Direction& direction);
 void TypewriterOuptut(string& text);
+
+string InputToLower(string& text);
+string GetDirection(const Direction& direction);
+string FirstLetterUpper(const string& text);
+vector<string> TreatInput(string& input);
 
 #endif // !USEFUL_H
