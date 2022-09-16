@@ -19,3 +19,23 @@ You can check the repo [here](https://github.com/MacXxs/LostSpace) </br>
 ### Important Information
 - Items must be referred by their full name, if an item is labeled "penaut_butter" and you want to get a closer look at it, you must type: </br> ```> LOOK PENAUT_BUTTER```
 - It doesn't matter if you use lower or upper cases while typing.
+
+## Quick Guide
+1. Grab the **backpack**
+2. Open the **lockers** and grab the **universal_key**
+3. Use the **universal_key** on the **automatic_door**
+4. Go **west**
+5. Grab the **spaghetti** and the **menstor** if you wanna have a health item and an armor boost.
+6. Go **up**
+7. Use the **audiolog** if you wanna know what happened while you where in cryosleep, drop the **universal_key** (you won't need it anymore) and grab the **plasma_cutter**
+8. Go **down** and then **west**
+9. Grab the **severed_hand** (drop something so you can grab the hand, you can later drop the hand and grab back whatever you dropped)
+10. Go **down**
+11. Use the **flashlight** so you can see around you.
+12. Use the **severed_hand** on the **security_terminal** and drop the hand (you no longer need it)
+13. Go **up**
+14. Grab wathever you droped before so you could take the hand
+15. Go **west**
+16. Kill the **alien**. You can attack him with the **plasma_cutter** to increase your damage. Also, you can consume the **spaghetti** (to recover **health**) or the **menstor** (to gain an armor bonus for 10 moves). 
+17. Use the **onboard_computer**
+18. FIN
