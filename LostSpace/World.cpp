@@ -411,8 +411,8 @@ void World::Help()
 	TextColor(WHITE);
 	cout << "Commands:" << endl;
 	cout << "- The \"LOOK\" command prints a description of your surroundings. You can use \
-the \"LOOK command followed by the name of an entity in the room to get a description of that \
-entity alone.\nUsage: > Look | > Look \"entity_name\"" << endl;
+the LOOK command followed by the name of an entity in the room to get a description of that \
+entity alone.\nUsage: > LOOK | > LOOK \"entity_name\"" << endl;
 	cout << "- The \"INVENTORY\" command prints a description of the items in your inventory.\
 \nUsage: > INVENTORY" << endl;
 	cout << "- The \"OPEN\" commmand prints a descriptions of the items contained inside a container.\n\
@@ -430,7 +430,7 @@ container.\nUsage: > PLACE \"item_name\" IN \"container_name\"" << endl;
 \nUsage: > CONSUME \"consumable_name\"" << endl;
 	cout << "- The \"ATTACK\" command allows you attack with your fists an auto-targeted enemy, \
 attack an enemy in particular whith your fists or attack an enemy in particular using a weapon \
-from your inventory.\nUsage: > ATTACK | > ATTACK \"enemy_name\" | ATTACK \"enemy_name\" \
+from your inventory.\nUsage: > ATTACK | > ATTACK \"enemy_name\" | > ATTACK \"enemy_name\" \
 WITH \"weapon_name\"" << endl;
 	cout << "\nMOVEMENT:\n- To walk in a direction just type the direction you wanna move: \
 > NORTH | > SOUTH | > EAST | > WEST | > UP | > DOWN" << endl;
