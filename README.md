@@ -1,4 +1,5 @@
-# LostSpace
+# LostSpace  :space_invader:
+
 Small conversational game in the style of Zork made by [Miquel Prieto Moliné](https://github.com/MacXxs) </br>
 You can check the repo [here](https://github.com/MacXxs/LostSpace) </br>
 
@@ -26,6 +27,7 @@ You can check the repo [here](https://github.com/MacXxs/LostSpace) </br>
 ### Important Information
 - Items must be referred by their full name, if an item is labeled "penaut_butter" and you want to get a closer look at it, you must type: </br> ```> LOOK PENAUT_BUTTER```
 - It doesn't matter if you use lower or upper cases while typing.
+- Use the **QUIT** command to exit the game. </br> ```> QUIT```
 
 ## Quick Guide
 1. Grab the **backpack**
