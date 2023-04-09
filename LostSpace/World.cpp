@@ -9,6 +9,11 @@
 #include "Weapon.h"
 #include "Consumable.h"
 
+#include "Globals.h"
+
+#include <fstream>
+#include <regex>
+
 World::World()
 {
 	/* ------------------- ROOMS ------------------- */
@@ -134,7 +139,7 @@ close propertly, what could have done this?",
 		"Isaac Cramp", 
 		"The unfortunate hero of this game.",
 		"You are beheaded by one of the alien's attacks and fall to the ground.",
-		quarters, 
+		bridge, 
 		100,
 		10,
 		0);
@@ -292,7 +297,9 @@ to the closest star and kill this thing for sure.",
 	entities.push_back(player); 
 }
 
-World::~World() {}
+World::~World()
+{
+}
 
 bool World::ValidCommand(vector<string>& input)
 {
@@ -345,6 +352,10 @@ bool World::Action(vector<string>& input)
 			else if (command == "help")
 			{
 				Help();
+			}
+			else if (command == "map")
+			{
+				PrintMap();
 			}
 			else valid = false;
 			break;
@@ -440,4 +451,22 @@ and you want to get a closer look at it, you must type: > LOOK PENAUT_BUTTER" <<
 	cout << "- It doesn't matter if you use lower or upper cases while typing." << endl;
 	cout << "- Use the \"QUIT\" command to exit the game. \n\tUsage: > QUIT" << endl;
 	TextColor(GREEN);
+}
+
+void World::PrintMap() const
+{
+	string location = player->Location()->name;
+	location = regex_replace(location, regex(" "), "_");
+
+	string myText;
+
+	ifstream MyReadFile(MAPS_PATH+location+".txt");
+
+	while (getline(MyReadFile, myText)) {
+		// Output the text from the file
+		cout << myText << endl;
+	}
+
+	// Close the file
+	MyReadFile.close();
 }

@@ -23,4 +23,3 @@ void Entity::Open() const
 {
 	cout << "You try to open the " << this->name << '.' << endl;
 }
-

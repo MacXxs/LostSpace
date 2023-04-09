@@ -92,5 +92,8 @@
     <ClInclude Include="Consumable.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

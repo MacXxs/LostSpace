@@ -1,11 +1,14 @@
 #include <iostream>
+
 #include "Useful.h"
 #include "World.h"
+#include "Globals.h"
+
 using namespace std;
 
 int main()
 {
-
+    SetConsoleSize(CONSOLE_WIDTH, CONSOLE_HEIGHT);
     TextBig();
     TextColor(BRIGHT_GREEN);
 
@@ -15,14 +18,18 @@ int main()
 
     TextColor(GREEN);
 
-    cout << "Welcome to Lost space!" << endl;
-    cout << "The USG Not Ishimura explorer spacecraft is in searh for a new system with a \
+    PrettyPrint("Welcome to Lost space!\n\
+The USG Not Ishimura explorer spacecraft is in searh for a new system with a \
 habitable planet. \nDuring cryosleep something happens, our hero wakes up alone in the crew quarters \
-after 100 years of slumber.\n" << endl;
+after 100 years\nof slumber.\n");
+
+    printf("\n");
 
     TextColor(WHITE);
-    cout << "Type \"HELP\" for an oberview of the commands.\n" << endl;
+    PrettyPrint("Type \"HELP\" for an oberview of the commands.\n");
     TextColor(GREEN);
+
+    printf("\n");
 
     World ishimura;
    

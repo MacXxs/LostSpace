@@ -20,6 +20,8 @@ public:
 	void Help();
 
 private:
+	void PrintMap() const;
+
 	vector<Entity*> entities;
 	Player* player;
 };

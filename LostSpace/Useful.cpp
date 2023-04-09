@@ -1,4 +1,28 @@
 #include "Useful.h"
+#include "Globals.h"
+
+void SetConsoleSize(int w, int h)
+{
+	CONSOLE_SCREEN_BUFFER_INFOEX consolesize;
+
+	consolesize.cbSize = sizeof(consolesize);
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	GetConsoleScreenBufferInfoEx(hConsole, &consolesize);
+
+	COORD c;
+	c.X = w;
+	c.Y = h;
+	consolesize.dwSize = c;
+
+	consolesize.srWindow.Left = 0;
+	consolesize.srWindow.Right = w;
+	consolesize.srWindow.Top = 0;
+	consolesize.srWindow.Bottom = h;
+
+	SetConsoleScreenBufferInfoEx(hConsole, &consolesize);
+}
 
 /* ------ Console Modifications ------ */
 void TextColor(const int &k)
@@ -85,6 +109,50 @@ void TypewriterOuptut(string& text)
 		Sleep(35);
 	}
 	cout << '\n';
+}
+
+void PrettyPrint(string& input)
+{
+	unsigned int bufferCount = 0;
+
+	stringstream ss(input);
+	string word, line;
+
+	while(getline(input, line))
+	{
+		std::stringstream linestream(line);
+
+		copy(std::istream_iterator<std::string>(linestream),
+			std::istream_iterator<std::string>(),
+			std::back_inserter(words));
+
+		++lineCount;
+	}
+
+	while (ss >> word)
+	{
+		if (bufferCount + word.size() >= CONSOLE_WIDTH - 1)
+		{
+			printf("\n");
+
+			bufferCount = 0;
+		}
+
+		printf("%s", &word[0]);
+
+		if (word != "\n")
+		{
+			printf(" ");
+
+			bufferCount += word.size() + 1;
+		}
+		else
+		{
+			cout << "------------- ENTERS -------- " << endl;
+		}
+	}
+
+	printf("\n");
 }
 
 string FirstLetterUpper(const string& text)
